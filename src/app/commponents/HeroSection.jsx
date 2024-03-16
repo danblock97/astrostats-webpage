@@ -38,15 +38,15 @@ const HeroSection = () => {
 						gaming titles like Apex Legends, League of Legends, and Fortnite,
 						this bot has you covered.
 					</p>
-					<Link href={"#commands"}>
+					<Link href="https://discord.com/oauth2/authorize?client_id=1088929834748616785&scope=applications.commands">
 						<button className="px-6 py-3 w-full sm:w-fit rounded-full mr-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:bg-slate-200 text-white">
-							Check out my commands!
+							Invite AstroStats!
 						</button>
 					</Link>
-					<Link href={"#contact"}>
+					<Link href="https://discord.gg/BeszQxTn9D">
 						<button className="px-1 py-1 w-full sm:w-fit rounded-full bg-gradient-to-r from-blue-600 to-violet-600 hover:bg-slate-800 text-white mt-3">
 							<span className="block bg-[#121212] hover:bg-slate-800 rounded-full px-5 py-2">
-								Contact
+								Discord Support!
 							</span>
 						</button>
 					</Link>

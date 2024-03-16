@@ -12,7 +12,7 @@ const navLinks = [
 	},
 	{
 		title: "Contact",
-		path: "#contact",
+		path: "https://discord.gg/BeszQxTn9D",
 	},
 ];
 
