@@ -18,8 +18,7 @@ const tab_data = [
 				</li>
 				<li>Fortnite | Usage: /fortnite 'name' | Check your Fortnite Stats </li>
 				<li>
-					LoL | Usage: /league 'region' 'summoner name' | Check your League
-					Stats{" "}
+					LoL | Usage: /league 'region' 'name' | Check your League Stats{" "}
 				</li>
 			</ul>
 		),
