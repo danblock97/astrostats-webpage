@@ -17,9 +17,7 @@ const tab_data = [
 					Apex Legends | Usage: /apex 'platform' 'name' | Check your Apex Stats{" "}
 				</li>
 				<li>Fortnite | Usage: /fortnite 'name' | Check your Fortnite Stats </li>
-				<li>
-					LoL | Usage: /league 'region' 'name' | Check your League Stats{" "}
-				</li>
+				<li>LoL | Usage: /league 'region' 'name' | Check your League Stats </li>
 			</ul>
 		),
 	},
@@ -28,7 +26,7 @@ const tab_data = [
 		id: "comingsoon",
 		content: (
 			<ul className="list-disc pl-2">
-				<li>Nothing to see yet! If you have any ideas, please contact me!</li>
+				<li>Teamfight Tactics! Check your TFT Ranked Stats!</li>
 			</ul>
 		),
 	},
