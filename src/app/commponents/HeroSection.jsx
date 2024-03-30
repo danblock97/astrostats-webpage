@@ -38,7 +38,7 @@ const HeroSection = () => {
 						gaming titles like Apex Legends, League of Legends, and Fortnite,
 						this bot has you covered.
 					</p>
-					<Link href="https://discord.com/oauth2/authorize?client_id=1088929834748616785&scope=applications.commands">
+					<Link href="https://discord.com/oauth2/authorize?client_id=1088929834748616785&permissions=2147747840&scope=bot">
 						<button className="px-6 py-3 w-full sm:w-fit rounded-full mr-4 bg-gradient-to-r from-blue-600 to-violet-600 hover:bg-slate-200 text-white">
 							Invite AstroStats!
 						</button>
