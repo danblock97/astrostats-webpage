@@ -16,8 +16,8 @@ const tab_data = [
 				<li>
 					Apex Legends | Usage: /apex 'platform' 'name' | Check your Apex Stats{" "}
 				</li>
-				<li>Fortnite | Usage: /fortnite 'name' | Check your Fortnite Stats </li>
-				<li>LoL | Usage: /league 'riotid' | Check your League Stats </li>
+				<li>Fortnite | Usage: /fortnite 'time' 'name' | Check your Fortnite Stats </li>
+				<li>LoL | Usage: /league 'riotid' | Check your League Stats & Your Live Game Details! </li>
 				<li>TFT | Usage: /tft 'riotid' | Check your TFT Stats </li>
 			</ul>
 		),
@@ -27,7 +27,7 @@ const tab_data = [
 		id: "comingsoon",
 		content: (
 			<ul className="list-disc pl-2">
-				<li>Nothing to see here!</li>
+				<li>Live Game compatibility with TFT</li>
 			</ul>
 		),
 	},
