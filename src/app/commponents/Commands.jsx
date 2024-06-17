@@ -28,6 +28,7 @@ const tab_data = [
 		content: (
 			<ul className="list-disc pl-2">
 				<li>Live Game compatibility with TFT</li>
+				<li>Valorant Player Stat Tracker</li>
 			</ul>
 		),
 	},
