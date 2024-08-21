@@ -12,7 +12,7 @@ const navLinks = [
 	},
 	{
 		title: "Contact",
-		path: "https://discord.gg/BeszQxTn9D",
+		path: "mailto:danblock1997@hotmail.co.uk?subject=Support Request",
 	},
 ];
 
