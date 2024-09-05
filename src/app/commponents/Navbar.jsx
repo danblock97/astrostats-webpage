@@ -12,7 +12,7 @@ const navLinks = [
 	},
 	{
 		title: "Contact",
-		path: "mailto:danblock1997@hotmail.co.uk?subject=Support Request",
+		path: "mailto:contact@danblock.dev?subject=Support Request",
 	},
 ];
 
