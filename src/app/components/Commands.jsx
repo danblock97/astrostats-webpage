@@ -16,9 +16,22 @@ const tab_data = [
 				<li>
 					Apex Legends | Usage: /apex 'platform' 'name' | Check your Apex Stats{" "}
 				</li>
-				<li>Fortnite | Usage: /fortnite 'time' 'name' | Check your Fortnite Stats </li>
-				<li>LoL | Usage: /league 'riotid' | Check your League Stats & Your Live Game Details! </li>
+				<li>
+					Fortnite | Usage: /fortnite 'time' 'name' | Check your Fortnite Stats{" "}
+				</li>
+				<li>
+					LoL | Usage: /league 'riotid' | Check your League Stats & Your Live
+					Game Details!{" "}
+				</li>
 				<li>TFT | Usage: /tft 'riotid' | Check your TFT Stats </li>
+				<li>
+					Pet Battles | Usage: /summon_pet | Engage with pet battles, earn XP
+					and become top of the leaderboard!
+				</li>
+				<li>
+					Show Newest Update | Usage: /show_update | Check out AstroStats latest
+					changes
+				</li>
 			</ul>
 		),
 	},
