@@ -11,6 +11,14 @@ const tab_data = [
 		content: (
 			<ul className="list-disc pl-2">
 				<li>
+					Squib Games | Usage: /squibgames | Take part in your very own Server
+					Squid Games!
+				</li>
+				<li>
+					Pet Battles | Usage: /petbattles | Engage with pet battles, earn XP
+					and become top of the leaderboard!
+				</li>
+				<li>
 					Horoscope | Usage: /horoscope 'sign' | Check your daily horoscope{" "}
 				</li>
 				<li>
@@ -25,10 +33,6 @@ const tab_data = [
 				</li>
 				<li>TFT | Usage: /tft 'riotid' | Check your TFT Stats </li>
 				<li>
-					Pet Battles | Usage: /summon_pet | Engage with pet battles, earn XP
-					and become top of the leaderboard!
-				</li>
-				<li>
 					Show Newest Update | Usage: /show_update | Check out AstroStats latest
 					changes
 				</li>
@@ -38,12 +42,7 @@ const tab_data = [
 	{
 		title: "Coming Soon",
 		id: "comingsoon",
-		content: (
-			<ul className="list-disc pl-2">
-				<li>Live Game compatibility with TFT</li>
-				<li>Valorant Player Stat Tracker</li>
-			</ul>
-		),
+		content: <ul className="list-disc pl-2"></ul>,
 	},
 ];
 
