@@ -28,8 +28,8 @@ const tab_data = [
 					Fortnite | Usage: /fortnite 'time' 'name' | Check your Fortnite Stats{" "}
 				</li>
 				<li>
-					LoL | Usage: /league 'riotid' | Check your League Stats & Your Live
-					Game Details!{" "}
+					LoL | Usage: /league | Check your League Stats, Live Game Details! &
+					Champion Mastery!{" "}
 				</li>
 				<li>TFT | Usage: /tft 'riotid' | Check your TFT Stats </li>
 				<li>
