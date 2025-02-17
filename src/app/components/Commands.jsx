@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useTransition } from "react";
+import React, { useState, useEffect, useTransition } from "react";
 import TabButton from "./TabButton";
 
 const tab_data = [
@@ -55,16 +55,38 @@ const Commands = () => {
 			setTab(id);
 		});
 	};
+
+	// Carousel state and logic
+	const imageList = [
+		"/images/ApexCommand.png",
+		"/images/ChampionMasteryCommand.png",
+		"/images/FortniteCommand.png",
+		"/images/HoroscopeCommand.png",
+		"/images/LeagueCommand.png",
+	];
+	const [currentImage, setCurrentImage] = useState(0);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setCurrentImage((prevIndex) => (prevIndex + 1) % imageList.length);
+		}, 3000);
+		return () => clearInterval(interval);
+	}, [imageList.length]);
+
 	return (
 		<section className="text-white">
-			<div className="md:grid md:grid-cols-2 gap-8 items-center py-8 px-4 xl:gap-16 sm:py-16 xl:px-16">
-				<Image
-					src="/images/commands.png"
-					alt="about image"
-					height={500}
-					width={500}
-				/>
-				<div className="mt-4 md:mt-0 text-left flex flex-col h-full">
+			<div className="md:grid md:grid-cols-[auto_500px] gap-8 items-center py-8 px-4 xl:gap-16 sm:py-16 xl:px-16">
+				<div className="relative h-[500px] w-[500px] md:w-[500px] md:h-[500px]">
+					{/* Auto Carousel */}
+					<Image
+						src={imageList[currentImage]}
+						alt="Command image"
+						height={500}
+						width={500}
+						className="object-contain"
+					/>
+				</div>
+				<div className="mt-4 md:mt-0 text-left flex flex-col h-full max-w-[500px]">
 					<h2 className="text-4xl font-bold text-white mb-4">Commands</h2>
 					<p className="text-base lg:text-lg">
 						Daily Horoscope: Stay ahead of the cosmic curve with AstroGamer's
