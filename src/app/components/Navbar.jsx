@@ -46,7 +46,7 @@ const Navbar = () => {
 
 		window.ATL_JQ_PAGE_PROPS = {
 			fieldValues: {
-				components: ["AstroStats"],
+				components: ["10320"],
 				priority: "2",
 			},
 			triggerFunction: function (showCollectorDialog) {

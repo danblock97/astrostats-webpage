@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92063f27-b2d5-4837-aefc-6189188c2ba0" name="Changes" comment="Update bug reporting button in Navbar and adjust jQuery loading script">
+    <list default="true" id="92063f27-b2d5-4837-aefc-6189188c2ba0" name="Changes" comment="Update bug reporting button configuration in Navbar and adjust jQuery loading settings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/components/Navbar.jsx" afterDir="false" />
     </list>
@@ -86,7 +86,7 @@
       <workItem from="1740397533266" duration="591000" />
       <workItem from="1740402773849" duration="1096000" />
       <workItem from="1740409845175" duration="642000" />
-      <workItem from="1740411309378" duration="142000" />
+      <workItem from="1740411309378" duration="769000" />
     </task>
     <task id="LOCAL-00001" summary="Add bug reporting button to Navbar and configure jQuery loading">
       <option name="closed" value="true" />
@@ -104,7 +104,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740410297218</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Update bug reporting button configuration in Navbar and adjust jQuery loading settings">
+      <option name="closed" value="true" />
+      <created>1740411473981</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740411473981</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +121,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add bug reporting button to Navbar and configure jQuery loading" />
     <MESSAGE value="Update bug reporting button in Navbar and adjust jQuery loading script" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update bug reporting button in Navbar and adjust jQuery loading script" />
+    <MESSAGE value="Update bug reporting button configuration in Navbar and adjust jQuery loading settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update bug reporting button configuration in Navbar and adjust jQuery loading settings" />
   </component>
 </project>
