@@ -17,7 +17,7 @@ const navLinks = [
 	{
 		title: "Report a Bug",
 		path: "#",
-		id: "myCustomTrigger", // This id is used by the Jira collector trigger.
+		id: "myCustomTrigger",
 	},
 ];
 
@@ -25,7 +25,6 @@ const Navbar = () => {
 	const [navbarOpen, setNavbarOpen] = useState(false);
 
 	useEffect(() => {
-		// 1. Load jQuery if it isn't already loaded.
 		if (typeof window !== "undefined" && !window.jQuery) {
 			const jqueryScript = document.createElement("script");
 			jqueryScript.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js";
@@ -37,20 +36,20 @@ const Navbar = () => {
 			loadJiraCollector();
 		}
 
-		// 2. Function to load the Jira issue collector script.
 		function loadJiraCollector() {
 			const script = document.createElement("script");
 			script.src =
-				"https://danblock97.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/g2slup/b/9/b0105d975e9e59f24a3230a22972a71a/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?locale=en-GB&collectorId=89e027d5";
+				"https://danblock97.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/g2slup/b/9/b0105d975e9e59f24a3230a22972a71a/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?locale=en-GB&collectorId=66de944a";
 			script.async = true;
 			document.body.appendChild(script);
 		}
 
-		// 3. Set up the ATL_JQ_PAGE_PROPS for the collector.
-		// This must be done on the client side after jQuery is available.
 		window.ATL_JQ_PAGE_PROPS = {
+			fieldValues: {
+				components: "AstroStats",
+				priority: "Medium",
+			},
 			triggerFunction: function (showCollectorDialog) {
-				// Wait until the DOM is fully loaded and jQuery is available.
 				window.jQuery("#myCustomTrigger").click(function (e) {
 					e.preventDefault();
 					showCollectorDialog();
@@ -59,7 +58,7 @@ const Navbar = () => {
 		};
 	}, []);
 
-	return (
+		return (
 		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-[#121212] bg-opacity-100">
 			<div className="flex container lg:py-4 flex-wrap items-center justify-between mx-auto px-4 py-2">
 				<Link href="/" className="text-2xl md:text-5xl text-white font-semibold">
