@@ -76,20 +76,19 @@ const Commands = () => {
 	return (
 		<section className="text-white">
 			<div className="md:grid md:grid-cols-[auto_500px] gap-8 items-center py-8 px-4 xl:gap-16 sm:py-16 xl:px-16">
-				<div className="relative h-[500px] w-[500px] md:w-[500px] md:h-[500px]">
+				<div className="relative h-[500px] w-[500px] overflow-hidden">
 					{/* Auto Carousel */}
 					<Image
 						src={imageList[currentImage]}
 						alt="Command image"
-						height={500}
-						width={500}
+						fill
 						className="object-contain"
 					/>
 				</div>
 				<div className="mt-4 md:mt-0 text-left flex flex-col h-full max-w-[500px]">
 					<h2 className="text-4xl font-bold text-white mb-4">Commands</h2>
 					<p className="text-base lg:text-lg">
-						Daily Horoscope: Stay ahead of the cosmic curve with AstroGamer's
+						Daily Horoscope: Stay ahead of the cosmic curve with AstroStat's
 						daily horoscope feature. Whether you're seeking insights into your
 						love life, career prospects, or general well-being, AstroGamer
 						delivers personalized horoscopes tailored to your zodiac sign,
@@ -97,21 +96,21 @@ const Commands = () => {
 					</p>
 					<p className="text-base lg:text-lg mt-4">
 						Apex Legends Stats: Dive into the world of Apex Legends and track
-						your progress with AstroGamer's Apex Legends stats feature. From
+						your progress with AstroStat's Apex Legends stats feature. From
 						kill counts and wins to character-specific data, AstroGamer keeps
 						you updated on your performance and helps you analyze your gameplay
 						to refine your skills and dominate the battlefield.
 					</p>
 					<p className="text-base lg:text-lg mt-4">
 						League of Legends Stats: Whether you're climbing the ranks or
-						strategizing with your team, AstroGamer's League of Legends stats
+						strategising with your team, AstroStat's League of Legends stats
 						feature provides valuable insights into your gameplay. Keep tabs on
 						your win rate, KDA ratio, champion mastery, and more, empowering you
 						to level up your game and achieve victory on the Summoner's Rift.
 					</p>
 					<p className="text-base lg:text-lg mt-4">
 						Fortnite Stats: Equip yourself with the knowledge you need to
-						conquer the island in Fortnite with AstroGamer's Fortnite stats
+						conquer the island in Fortnite with AstroStat's Fortnite stats
 						feature. Track your match history, survival rate, and elimination
 						stats, and compare your performance against friends and rivals to
 						assert your dominance as the last one standing.
