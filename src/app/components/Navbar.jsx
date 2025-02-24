@@ -87,7 +87,7 @@ const Navbar = () => {
 							<li key={index}>
 								{link.id ? (
 									// Render a button for "Report a Bug" with the matching id.
-									<button id={link.id} className="text-white hover:text-gray-300">
+									<button id={link.id} className="block py-2 pl-3 pr-4 text-[#adb7be] sm:text-xl rounded md:p-0 hover:text-white">
 										{link.title}
 									</button>
 								) : (
