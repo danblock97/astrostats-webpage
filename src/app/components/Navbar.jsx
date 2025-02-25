@@ -50,7 +50,8 @@ const Navbar = () => {
 				priority: "2",
 			},
 			triggerFunction: function (showCollectorDialog) {
-				window.jQuery("#myCustomTrigger").click(function (e) {
+				// Use delegated event binding to catch clicks from both desktop and mobile buttons.
+				window.jQuery(document).on("click", "#myCustomTrigger", function (e) {
 					e.preventDefault();
 					showCollectorDialog();
 				});
@@ -58,7 +59,7 @@ const Navbar = () => {
 		};
 	}, []);
 
-		return (
+	return (
 		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-[#121212] bg-opacity-100">
 			<div className="flex container lg:py-4 flex-wrap items-center justify-between mx-auto px-4 py-2">
 				<Link href="/" className="text-2xl md:text-5xl text-white font-semibold">
@@ -86,7 +87,6 @@ const Navbar = () => {
 						{navLinks.map((link, index) => (
 							<li key={index}>
 								{link.id ? (
-									// Render a button for "Report a Bug" with the matching id.
 									<button id={link.id} className="block py-2 pl-3 pr-4 text-[#adb7be] sm:text-xl rounded md:p-0 hover:text-white">
 										{link.title}
 									</button>
