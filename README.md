@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AstroStats Discord Bot
 
-## Getting Started
+![AstroStats Logo](/public/images/astrostats.png)
 
-First, run the development server:
+AstroStats is your ultimate Discord companion for daily horoscopes and gaming statistics tracking across popular titles including Apex Legends, League of Legends, Fortnite, and more!
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What is AstroStats?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+AstroStats is a feature-rich Discord bot that brings cosmic guidance and gaming insights directly to your server. Whether you're seeking daily horoscope updates or wanting to track your performance in your favorite games, AstroStats delivers this information in a sleek, easy-to-access format.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Daily Horoscopes
+Stay connected with cosmic energies by checking your daily horoscope. Simply use the command with your zodiac sign to receive personalized insights about your day ahead.
 
-## Learn More
+### Gaming Statistics
+Track your performance across multiple popular games:
 
-To learn more about Next.js, take a look at the following resources:
+- **Apex Legends**: View detailed stats including kills, wins, and character-specific data
+- **League of Legends**: Check your win rates, KDA ratios, champion mastery, and even live game information
+- **Fortnite**: Monitor your match history, survival rates, and elimination statistics
+- **Teamfight Tactics (TFT)**: Track your TFT stats with ease
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Server Engagement
+- **Squib Games**: Host your own server Squid Games competition
+- **Pet Battles**: Engage in pet battles and climb the leaderboard
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## How to Use AstroStats
 
-## Deploy on Vercel
+### Command List
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Horoscope**: `/horoscope [sign]` - Check your daily horoscope
+- **Apex Legends**: `/apex [platform] [name]` - Check Apex Legends stats
+- **Fortnite**: `/fortnite [time] [name]` - Check Fortnite stats
+- **League of Legends**: `/league` - Check League stats, live game details & champion mastery
+- **Teamfight Tactics**: `/tft [riotid]` - Check TFT stats
+- **Squib Games**: `/squibgames` - Take part in your server's Squid Games
+- **Pet Battles**: `/petbattles` - Engage with pet battles, earn XP and climb the leaderboard
+- **Latest Updates**: `/show_update` - See the newest AstroStats features and changes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Inviting AstroStats to Your Server
+
+Adding AstroStats to your Discord server is simple! Click the "Invite AstroStats!" button on our website or use the direct invitation link below:
+
+[Add AstroStats to Your Server](https://discord.com/oauth2/authorize?client_id=1088929834748616785&permissions=2147747840&scope=bot)
+
+## Support
+
+Need help with AstroStats? Have suggestions for new features? Join our support server or reach out directly:
+
+- **Discord Support Server**: [Join Here](https://discord.gg/BeszQxTn9D)
+- **Contact**: Send an email to contact@danblock.dev with your questions or feedback
+- **Bug Reports**: Use the "Report a Bug" button on our website to submit detailed bug reports
+
+## Privacy and Terms
+
+AstroStats respects your privacy and does not collect or store any personal data. All information is used temporarily only for the duration of command execution.
+
+For more information, please read our [Privacy Policy](/privacy-policy) and [Terms of Service](/terms-of-service).
+
+---
+
+AstroStats - Where cosmic guidance meets gaming excellence!
