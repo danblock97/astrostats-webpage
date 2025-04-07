@@ -4,11 +4,20 @@ import Link from "next/link";
 import NavLink from "./NavLink";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import MenuOverlay from "./MenuOverlay";
+import JiraCollectors from "./JiraCollectors";
 
 const navLinks = [
 	{
 		title: "Commands",
 		path: "#commands",
+	},
+	{
+		title: "Report a Bug",
+		id: "reportBugButton",
+	},
+	{
+		title: "Feature Request",
+		id: "featureRequestButton",
 	},
 	{
 		title: "Contact",
@@ -21,8 +30,12 @@ const Navbar = () => {
 
 	return (
 		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-[#121212] bg-opacity-100">
+			<JiraCollectors />
 			<div className="flex container lg:py-4 flex-wrap items-center justify-between mx-auto px-4 py-2">
-				<Link href="/" className="text-2xl md:text-5xl text-white font-semibold">
+				<Link
+					href="/"
+					className="text-2xl md:text-5xl text-white font-semibold"
+				>
 					AstroStats
 				</Link>
 				<div className="mobile-menu block md:hidden">
@@ -47,7 +60,10 @@ const Navbar = () => {
 						{navLinks.map((link, index) => (
 							<li key={index}>
 								{link.id ? (
-									<button id={link.id} className="block py-2 pl-3 pr-4 text-[#adb7be] sm:text-xl rounded md:p-0 hover:text-white">
+									<button
+										id={link.id}
+										className="block py-2 pl-3 pr-4 text-[#adb7be] sm:text-xl rounded md:p-0 hover:text-white"
+									>
 										{link.title}
 									</button>
 								) : (

@@ -7,8 +7,10 @@ const MenuOverlay = ({ links }) => {
 			{links.map((link, index) => (
 				<li key={index}>
 					{link.id ? (
-						// Render the "Report a Bug" button with the matching id for mobile.
-						<button id={link.id} className="block py-2 pl-3 pr-4 text-[#adb7be] sm:text-xl rounded hover:text-white">
+						<button
+							id={link.id}
+							className="block py-2 pl-3 pr-4 text-[#adb7be] sm:text-xl rounded hover:text-white"
+						>
 							{link.title}
 						</button>
 					) : (
