@@ -36,6 +36,7 @@ const tab_data = [
 					Show Newest Update | Usage: /show_update | Check out AstroStats latest
 					changes
 				</li>
+				<li>Truth or Dare | Usage: /truthordare | SFW & NSFW</li>
 			</ul>
 		),
 	},
@@ -96,10 +97,10 @@ const Commands = () => {
 					</p>
 					<p className="text-base lg:text-lg mt-4">
 						Apex Legends Stats: Dive into the world of Apex Legends and track
-						your progress with AstroStat's Apex Legends stats feature. From
-						kill counts and wins to character-specific data, AstroGamer keeps
-						you updated on your performance and helps you analyze your gameplay
-						to refine your skills and dominate the battlefield.
+						your progress with AstroStat's Apex Legends stats feature. From kill
+						counts and wins to character-specific data, AstroGamer keeps you
+						updated on your performance and helps you analyze your gameplay to
+						refine your skills and dominate the battlefield.
 					</p>
 					<p className="text-base lg:text-lg mt-4">
 						League of Legends Stats: Whether you're climbing the ranks or
