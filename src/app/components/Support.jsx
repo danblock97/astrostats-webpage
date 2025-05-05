@@ -18,7 +18,6 @@ const Support = () => {
             formContainerRef.current.appendChild(script);
         }
 
-        // Cleanup function to remove script when component unmounts
         return () => {
             if (formContainerRef.current) {
                 const script = document.getElementById('15ab0f33-5e6c-44af-9f58-ec2c5d781fb0');
@@ -52,7 +51,8 @@ const Support = () => {
                             <div className="p-4 bg-gray-800 bg-opacity-50 rounded-lg">
                                 <h3 className="text-xl font-medium mb-2 text-white">What is AstroStats?</h3>
                                 <p className="text-gray-300">
-                                    AstroStats is a Discord bot that provides statistics and information about Astroneer, a space exploration and adventure game.
+                                    AstroStats is a Discord bot that provides player stats for multiple games, including Apex Legends, League of Legends, and more. AstroStats is more than just a stats bot; it also provides a variety of other features, including games like pet battles,
+                                    squid games, truth or dare and more!
                                 </p>
                             </div>
 
@@ -66,7 +66,7 @@ const Support = () => {
                             <div className="p-4 bg-gray-800 bg-opacity-50 rounded-lg">
                                 <h3 className="text-xl font-medium mb-2 text-white">What commands does AstroStats support?</h3>
                                 <p className="text-gray-300">
-                                    AstroStats supports a variety of commands to provide information about Astroneer. You can find a list of all available commands in the Commands section of our website.
+                                    AstroStats supports a variety of commands. You can find a list of all available commands in the Commands page on our website.
                                 </p>
                             </div>
                         </div>
