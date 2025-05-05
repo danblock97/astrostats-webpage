@@ -8,7 +8,7 @@ import MenuOverlay from "./MenuOverlay";
 const navLinks = [
 	{
 		title: "Commands",
-		path: "#commands",
+		path: "/commands",
 	},
 	{
 		title: "Need Help? Contact Us",
