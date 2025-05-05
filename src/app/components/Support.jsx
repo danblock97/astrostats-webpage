@@ -1,113 +1,349 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 const Support = () => {
-    const formContainerRef = useRef(null);
+  const formContainerRef = useRef(null);
 
-    useEffect(() => {
-        if (formContainerRef.current) {
-            // Create script element
-            const script = document.createElement('script');
-            script.id = '15ab0f33-5e6c-44af-9f58-ec2c5d781fb0';
-            script.src = 'https://solodev-initiatives.youtrack.cloud/static/simplified/form/form-entry.js';
-            script.setAttribute('data-yt-url', 'https://solodev-initiatives.youtrack.cloud');
-            script.setAttribute('data-theme', 'dark');
-            script.setAttribute('data-lang', 'en');
+  useEffect(() => {
+    if (formContainerRef.current) {
+      // Create script element
+      const script = document.createElement("script");
+      script.id = "15ab0f33-5e6c-44af-9f58-ec2c5d781fb0";
+      script.src =
+        "https://solodev-initiatives.youtrack.cloud/static/simplified/form/form-entry.js";
+      script.setAttribute(
+        "data-yt-url",
+        "https://solodev-initiatives.youtrack.cloud",
+      );
+      script.setAttribute("data-theme", "dark");
+      script.setAttribute("data-lang", "en");
 
-            // Append script to the container
-            formContainerRef.current.appendChild(script);
+      // Append script to the container
+      formContainerRef.current.appendChild(script);
+    }
+
+    return () => {
+      if (formContainerRef.current) {
+        const script = document.getElementById(
+          "15ab0f33-5e6c-44af-9f58-ec2c5d781fb0",
+        );
+        if (script) {
+          script.remove();
         }
+      }
+    };
+  }, []);
 
-        return () => {
-            if (formContainerRef.current) {
-                const script = document.getElementById('15ab0f33-5e6c-44af-9f58-ec2c5d781fb0');
-                if (script) {
-                    script.remove();
-                }
-            }
-        };
-    }, []);
-    return (
-        <div className="p-6 my-10">
-            <h1 className="text-4xl font-bold mb-8 text-white text-center bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent">Support Center</h1>
-
-            <div className="flex flex-col lg:flex-row gap-8">
-                {/* Left Column - Information */}
-                <div className="lg:w-1/2 space-y-8">
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-purple-600 transform transition-all hover:scale-[1.01]">
-                        <h2 className="text-2xl font-semibold mb-4 text-white">How Can We Help?</h2>
-                        <p className="mb-4 text-gray-300">
-                            Welcome to the AstroStats Support Center. We're here to help you with any questions or issues you might have with our service.
-                        </p>
-                        <p className="text-gray-300">
-                            Our team is dedicated to providing you with the best support possible. Feel free to browse through our FAQs or submit a support request using the form.
-                        </p>
-                    </div>
-
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-blue-500 transform transition-all hover:scale-[1.01]">
-                        <h2 className="text-2xl font-semibold mb-4 text-white">Frequently Asked Questions</h2>
-
-                        <div className="space-y-6">
-                            <div className="p-4 bg-gray-800 bg-opacity-50 rounded-lg">
-                                <h3 className="text-xl font-medium mb-2 text-white">What is AstroStats?</h3>
-                                <p className="text-gray-300">
-                                    AstroStats is a Discord bot that provides player stats for multiple games, including Apex Legends, League of Legends, and more. AstroStats is more than just a stats bot; it also provides a variety of other features, including games like pet battles,
-                                    squid games, truth or dare and more!
-                                </p>
-                            </div>
-
-                            <div className="p-4 bg-gray-800 bg-opacity-50 rounded-lg">
-                                <h3 className="text-xl font-medium mb-2 text-white">How do I add AstroStats to my Discord server?</h3>
-                                <p className="text-gray-300">
-                                    You can add AstroStats to your Discord server by clicking the "Add to Discord" button on our homepage and following the authorization process.
-                                </p>
-                            </div>
-
-                            <div className="p-4 bg-gray-800 bg-opacity-50 rounded-lg">
-                                <h3 className="text-xl font-medium mb-2 text-white">What commands does AstroStats support?</h3>
-                                <p className="text-gray-300">
-                                    AstroStats supports a variety of commands. You can find a list of all available commands in the Commands page on our website.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg border-l-4 border-yellow-500 transform transition-all hover:scale-[1.01]">
-                        <h2 className="text-2xl font-semibold mb-4 text-white">Development Roadmap</h2>
-                        <p className="mb-4 text-gray-300">
-                            Interested in what we're working on? Check out our public issue tracker to see our current development roadmap, planned features, and bug fixes.
-                        </p>
-                        <a 
-                            href="https://solodev-initiatives.youtrack.cloud/agiles/183-3/current" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="inline-flex items-center px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-medium rounded-md transition-colors duration-300"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                            </svg>
-                            View Issue Tracker
-                        </a>
-                    </div>
-                </div>
-
-                {/* Right Column - Contact Form */}
-                <div className="lg:w-1/2">
-                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-lg shadow-lg border-r-4 border-green-500 h-full transform transition-all hover:scale-[1.01]">
-                        <h2 className="text-2xl font-semibold mb-4 text-white">Contact Support</h2>
-                        <p className="mb-6 text-gray-300">
-                            If you couldn't find the answer to your question in our FAQ, please use the form below to contact our support team. We'll get back to you as soon as possible.
-                        </p>
-
-                        <div className="bg-[#1e1e1e] p-6 rounded-lg shadow-inner">
-                            {/* YouTrack helpdesk form container */}
-                            <div ref={formContainerRef} className="youtrack-form-container"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="w-full my-10">
+      {/* Hero Section with animated background */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 py-16 mb-12 rounded-xl">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-purple-500 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500 rounded-full filter blur-3xl"></div>
         </div>
-    );
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-5xl font-bold mb-4 text-white inline-block bg-gradient-to-r from-purple-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Support Center
+          </h1>
+          <div className="h-1 w-32 bg-gradient-to-r from-purple-500 to-blue-500 rounded mx-auto mb-6"></div>
+          <p className="text-xl text-gray-200 max-w-3xl mx-auto">
+            We're here to help you get the most out of AstroStats. Find answers
+            to common questions or reach out to our team.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 gap-8">
+        {/* How Can We Help Section */}
+        <div className="col-span-1">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-600 h-full transform transition-all hover:-translate-y-1 duration-300">
+            <div className="flex items-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-purple-400 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+              <h2 className="text-2xl font-bold text-white">
+                How Can We Help?
+              </h2>
+            </div>
+            <p className="mb-4 text-gray-300 leading-relaxed">
+              Welcome to the AstroStats Support Center. We're here to help you
+              with any questions or issues you might have with our service.
+            </p>
+            <p className="text-gray-300 leading-relaxed">
+              Our team is dedicated to providing you with the best support
+              possible. Feel free to browse through our FAQs or submit a support
+              request using the form.
+            </p>
+            <div className="mt-6 pt-6 border-t border-gray-700">
+              <h3 className="text-xl font-semibold mb-3 text-white">
+                Quick Links
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href="/commands"
+                  className="flex items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  <span className="text-purple-400 font-medium">Commands</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Development Roadmap Section */}
+        <div className="col-span-1">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-yellow-500 transform transition-all hover:-translate-y-1 duration-300">
+            <div className="flex items-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-yellow-400 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+              <h2 className="text-2xl font-bold text-white">
+                Development Roadmap
+              </h2>
+            </div>
+            <p className="mb-4 text-gray-300 leading-relaxed">
+              Interested in what we're working on? Check out our public issue
+              tracker to see our current development roadmap, planned features,
+              and bug fixes.
+            </p>
+            <div className="flex space-x-3 mt-4">
+              <a
+                href="https://solodev-initiatives.youtrack.cloud/agiles/183-3/current"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 text-center px-4 py-3 bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-700 hover:to-amber-700 text-white font-medium rounded-md transition-colors duration-300"
+              >
+                <div className="flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                  View Issue Tracker
+                </div>
+              </a>
+              <a
+                href="https://discord.gg/BeszQxTn9D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 text-center px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-md transition-colors duration-300"
+              >
+                <div className="flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                  Join Discord
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Middle Section - FAQs */}
+        <div className="col-span-1">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 transform transition-all hover:-translate-y-1 duration-300 h-full">
+            <div className="flex items-center mb-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-blue-400 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <h2 className="text-2xl font-bold text-white">
+                Frequently Asked Questions
+              </h2>
+            </div>
+
+            <div className="space-y-5">
+              <div className="p-4 bg-gray-800 bg-opacity-70 rounded-lg hover:bg-opacity-90 transition-all duration-300 border-l-2 border-blue-400">
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  What is AstroStats?
+                </h3>
+                <p className="text-gray-300 leading-relaxed">
+                  AstroStats is a Discord bot that provides player stats for
+                  multiple games, including Apex Legends, League of Legends, and
+                  more. AstroStats is more than just a stats bot; it also
+                  provides a variety of other features, including games like pet
+                  battles, squid games, truth or dare and more!
+                </p>
+              </div>
+
+              <div className="p-4 bg-gray-800 bg-opacity-70 rounded-lg hover:bg-opacity-90 transition-all duration-300 border-l-2 border-blue-400">
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  How do I add AstroStats to my Discord server?
+                </h3>
+                <p className="text-gray-300 leading-relaxed">
+                  You can add AstroStats to your Discord server by clicking the
+                  "Add to Discord" button on our homepage and following the
+                  authorization process.
+                </p>
+              </div>
+
+              <div className="p-4 bg-gray-800 bg-opacity-70 rounded-lg hover:bg-opacity-90 transition-all duration-300 border-l-2 border-blue-400">
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  What commands does AstroStats support?
+                </h3>
+                <p className="text-gray-300 leading-relaxed">
+                  AstroStats supports a variety of commands. You can find a list
+                  of all available commands in the Commands page on our website.
+                </p>
+              </div>
+
+              <div className="p-4 bg-gray-800 bg-opacity-70 rounded-lg hover:bg-opacity-90 transition-all duration-300 border-l-2 border-blue-400">
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  How often is AstroStats updated?
+                </h3>
+                <p className="text-gray-300 leading-relaxed">
+                  We regularly update AstroStats with new features, bug fixes,
+                  and game support. You can follow our development roadmap to
+                  stay informed about upcoming changes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section - Contact Form */}
+        <div className="col-span-1">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-r-4 border-green-500 h-full transform transition-all hover:-translate-y-1 duration-300">
+            <div className="flex items-center mb-4">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 text-green-400 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              <h2 className="text-2xl font-bold text-white">Contact Support</h2>
+            </div>
+            <p className="mb-6 text-gray-300 leading-relaxed">
+              If you couldn't find the answer to your question in our FAQ,
+              please use the form below to contact our support team. We'll get
+              back to you as soon as possible.
+            </p>
+
+            <div className="bg-[#1e1e1e] p-6 rounded-lg shadow-inner border border-gray-700">
+              <div className="mb-4 flex justify-between bg-gray-800 px-4 py-3 rounded-lg">
+                <span className="text-green-400 font-medium">
+                  Response time:
+                </span>
+                <span className="text-white">24-48 hours</span>
+              </div>
+              {/* YouTrack helpdesk form container */}
+              <div
+                ref={formContainerRef}
+                className="youtrack-form-container"
+              ></div>
+            </div>
+
+            <div className="mt-6 pt-6 border-t border-gray-700">
+              <h3 className="text-xl font-semibold mb-3 text-white">
+                Alternative Contact Methods
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <a
+                  href="https://discord.gg/BeszQxTn9D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center p-3 bg-indigo-900 bg-opacity-40 hover:bg-opacity-60 rounded-lg transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-indigo-400 mr-3 group-hover:text-indigo-300"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+                  </svg>
+                  <span className="text-white font-medium">Discord Server</span>
+                </a>
+                <a
+                  href="mailto:support@astrostats.io"
+                  className="group flex items-center p-3 bg-blue-900 bg-opacity-40 hover:bg-opacity-60 rounded-lg transition-colors"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-blue-400 mr-3 group-hover:text-blue-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="text-white font-medium">Email Support</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Support;
