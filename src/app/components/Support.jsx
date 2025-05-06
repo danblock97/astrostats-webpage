@@ -8,7 +8,7 @@ const Support = () => {
     if (formContainerRef.current) {
       // Create script element
       const script = document.createElement("script");
-      script.id = "15ab0f33-5e6c-44af-9f58-ec2c5d781fb0";
+      script.id = "b12c2458-1d62-4699-8a44-8936de520fc6";
       script.src =
         "https://solodev-initiatives.youtrack.cloud/static/simplified/form/form-entry.js";
       script.setAttribute(
@@ -25,7 +25,7 @@ const Support = () => {
     return () => {
       if (formContainerRef.current) {
         const script = document.getElementById(
-          "15ab0f33-5e6c-44af-9f58-ec2c5d781fb0",
+          "b12c2458-1d62-4699-8a44-8936de520fc6",
         );
         if (script) {
           script.remove();
@@ -133,7 +133,7 @@ const Support = () => {
             </p>
             <div className="flex space-x-3 mt-4">
               <a
-                href="https://solodev-initiatives.youtrack.cloud/agiles/183-3/current"
+                href="https://solodev-initiatives.youtrack.cloud/agiles/183-17/current"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 text-center px-4 py-3 bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-700 hover:to-amber-700 text-white font-medium rounded-md transition-colors duration-300"
