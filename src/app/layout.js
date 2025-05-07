@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +14,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<head>
+				<Script
+					src="https://code.jquery.com/jquery-3.7.1.min.js"
+					integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+					crossOrigin="anonymous"
+					strategy="beforeInteractive"
+				/>
+			</head>
+			<body className={inter.className}>
+				{children}
+				<Footer />
+			</body>
 		</html>
 	);
 }

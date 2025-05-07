@@ -1,36 +1,98 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 const Support = () => {
-  const formContainerRef = useRef(null);
-
   useEffect(() => {
-    if (formContainerRef.current) {
-      // Create script element
-      const script = document.createElement("script");
-      script.id = "b12c2458-1d62-4699-8a44-8936de520fc6";
-      script.src =
-        "https://solodev-initiatives.youtrack.cloud/static/simplified/form/form-entry.js";
-      script.setAttribute(
-        "data-yt-url",
-        "https://solodev-initiatives.youtrack.cloud",
-      );
-      script.setAttribute("data-theme", "dark");
-      script.setAttribute("data-lang", "en");
+    const loadedScripts = [];
 
-      // Append script to the container
-      formContainerRef.current.appendChild(script);
+    // Helper function to load a single Jira collector
+    function loadJiraCollector(config) {
+      return new Promise((resolve, reject) => {
+        // Set up window properties for this specific collector
+        window.ATL_JQ_PAGE_PROPS = {
+          collectorId: config.collectorId,
+          triggerFunction: function (showDialog) {
+            if (window.jQuery) {
+              window
+                .jQuery("#" + config.triggerId)
+                .off("click." + config.namespace)
+                .on("click." + config.namespace, function (e) {
+                  e.preventDefault();
+                  showDialog();
+                });
+            } else {
+              console.error(
+                `jQuery not available for Jira collector: ${config.collectorId}`
+              );
+              reject(
+                new Error(
+                  `jQuery not available for Jira collector: ${config.collectorId}`
+                )
+              );
+              return;
+            }
+            resolve();
+          },
+        };
+
+        const scriptElement = document.createElement("script");
+        scriptElement.src = config.scriptUrlWithCollector;
+        scriptElement.type = "text/javascript";
+        scriptElement.async = true;
+        scriptElement.onload = () => {
+        };
+        scriptElement.onerror = () => {
+          console.error(
+            "Failed to load Jira script:",
+            config.scriptUrlWithCollector
+          );
+          reject(new Error("Script load error for " + config.collectorId));
+        };
+        document.body.appendChild(scriptElement);
+        loadedScripts.push({ ...config, scriptElement });
+      });
     }
 
+    const bugCollectorConfig = {
+      collectorId: "34c24173",
+      triggerId: "bugReportTrigger",
+      namespace: "jiraBugCollector",
+      scriptUrlWithCollector:
+        process.env.NEXT_PUBLIC_JIRA_BUG_COLLECTOR_URL
+    };
+
+    const featureCollectorConfig = {
+      collectorId: "5b83178d",
+      triggerId: "featureRequestTrigger",
+      namespace: "jiraFeatureCollector",
+      scriptUrlWithCollector:
+        process.env.NEXT_PUBLIC_JIRA_FEATURE_COLLECTOR_URL
+    };
+
+    if (window.jQuery) {
+      loadJiraCollector(bugCollectorConfig)
+        .then(() => {
+          return loadJiraCollector(featureCollectorConfig);
+        })
+        .then(() => {
+        })
+        .catch((error) => {
+          console.error("Error initializing Jira collectors:", error);
+        });
+    } else {
+      console.error("jQuery is not available. Jira collectors will not be loaded.");
+    }
+
+    // Cleanup
     return () => {
-      if (formContainerRef.current) {
-        const script = document.getElementById(
-          "b12c2458-1d62-4699-8a44-8936de520fc6",
-        );
-        if (script) {
-          script.remove();
+      loadedScripts.forEach((config) => {
+        if (config.scriptElement && document.body.contains(config.scriptElement)) {
+          document.body.removeChild(config.scriptElement);
         }
-      }
+        if (window.jQuery) {
+          window.jQuery("#" + config.triggerId).off("click." + config.namespace);
+        }
+      });
     };
   }, []);
 
@@ -49,143 +111,95 @@ const Support = () => {
           </h1>
           <div className="h-1 w-32 bg-gradient-to-r from-purple-500 to-blue-500 rounded mx-auto mb-6"></div>
           <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-            We're here to help you get the most out of AstroStats. Find answers
-            to common questions or reach out to our team.
+            Need assistance? Report a bug, request a new feature, or find answers
+            to common questions below.
           </p>
         </div>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 gap-8">
-        {/* How Can We Help Section */}
+      {/* Main Content Grid for Bug/Feature Reports */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        {/* Report a Bug Section */}
         <div className="col-span-1">
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-purple-600 h-full transform transition-all hover:-translate-y-1 duration-300">
-            <div className="flex items-center mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-purple-400 mr-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-              <h2 className="text-2xl font-bold text-white">
-                How Can We Help?
-              </h2>
-            </div>
-            <p className="mb-4 text-gray-300 leading-relaxed">
-              Welcome to the AstroStats Support Center. We're here to help you
-              with any questions or issues you might have with our service.
-            </p>
-            <p className="text-gray-300 leading-relaxed">
-              Our team is dedicated to providing you with the best support
-              possible. Feel free to browse through our FAQs or submit a support
-              request using the form.
-            </p>
-            <div className="mt-6 pt-6 border-t border-gray-700">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                Quick Links
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <a
-                  href="/commands"
-                  className="flex items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-red-500 h-full transform transition-all hover:-translate-y-1 duration-300 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-red-400 mr-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <span className="text-purple-400 font-medium">Commands</span>
-                </a>
+                  {/* Alert Icon for Bugs */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <h2 className="text-2xl font-bold text-white">Report a Bug</h2>
               </div>
+              <p className="mb-6 text-gray-300 leading-relaxed">
+                Encountered an issue or something not working as expected? Please
+                let us know by reporting a bug. Your detailed feedback helps us
+                improve AstroStats for everyone.
+              </p>
             </div>
+            <button
+              id="bugReportTrigger"
+              className="w-full mt-auto text-center px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold rounded-md transition-colors duration-300 text-lg"
+            >
+              Report Bug
+            </button>
           </div>
         </div>
 
-        {/* Development Roadmap Section */}
+        {/* Request a Feature Section */}
         <div className="col-span-1">
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-yellow-500 transform transition-all hover:-translate-y-1 duration-300">
-            <div className="flex items-center mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-yellow-400 mr-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                />
-              </svg>
-              <h2 className="text-2xl font-bold text-white">
-                Development Roadmap
-              </h2>
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-green-500 h-full transform transition-all hover:-translate-y-1 duration-300 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-green-400 mr-3"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  {/* Lightbulb/Idea Icon for Features */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9.663 17h4.673M21 12a9 9 0 11-18 0 9 9 0 0118 0zM12 6V3m0 18v-3m0-12h.01M6.343 6.343l2.122 2.122m9.192 9.192l2.122 2.122M3 12h3m15 0h-3m-9.657-5.657l2.122-2.122m9.192 9.192l2.122-2.122"
+                  />
+                </svg>
+                <h2 className="text-2xl font-bold text-white">
+                  Request a Feature
+                </h2>
+              </div>
+              <p className="mb-6 text-gray-300 leading-relaxed">
+                Have a great idea for a new feature or an improvement to an
+                existing one? We&apos;d love to hear it! Submit your feature
+                requests here to help shape the future of AstroStats.
+              </p>
             </div>
-            <p className="mb-4 text-gray-300 leading-relaxed">
-              Interested in what we're working on? Check out our public issue
-              tracker to see our current development roadmap, planned features,
-              and bug fixes.
-            </p>
-            <div className="flex space-x-3 mt-4">
-              <a
-                href="https://solodev-initiatives.youtrack.cloud/agiles/183-17/current"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 text-center px-4 py-3 bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-700 hover:to-amber-700 text-white font-medium rounded-md transition-colors duration-300"
-              >
-                <div className="flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                    />
-                  </svg>
-                  View Issue Tracker
-                </div>
-              </a>
-              <a
-                href="https://discord.gg/BeszQxTn9D"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 text-center px-4 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-md transition-colors duration-300"
-              >
-                <div className="flex items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 mr-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                    />
-                  </svg>
-                  Join Discord
-                </div>
-              </a>
-            </div>
+            <button
+              id="featureRequestTrigger"
+              className="w-full mt-auto text-center px-6 py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-md transition-colors duration-300 text-lg"
+            >
+              Request Feature
+            </button>
           </div>
         </div>
+      </div>
 
+      {/* Grid for FAQs and Alternative Contact Methods */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Middle Section - FAQs */}
-        <div className="col-span-1">
+        <div className="md:col-span-2">
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-l-4 border-blue-500 transform transition-all hover:-translate-y-1 duration-300 h-full">
             <div className="flex items-center mb-6">
               <svg
@@ -256,13 +270,13 @@ const Support = () => {
           </div>
         </div>
 
-        {/* Right Section - Contact Form */}
-        <div className="col-span-1">
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-r-4 border-green-500 h-full transform transition-all hover:-translate-y-1 duration-300">
+        {/* Alternative Contact Methods Section */}
+        <div className="md:col-span-2">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg border-r-4 border-indigo-500 h-full transform transition-all hover:-translate-y-1 duration-300">
             <div className="flex items-center mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-green-400 mr-3"
+                className="h-8 w-8 text-indigo-400 mr-3"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -274,70 +288,51 @@ const Support = () => {
                   d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-              <h2 className="text-2xl font-bold text-white">Contact Support</h2>
+              <h2 className="text-2xl font-bold text-white">
+                Alternative Contact Methods
+              </h2>
             </div>
             <p className="mb-6 text-gray-300 leading-relaxed">
-              If you couldn't find the answer to your question in our FAQ,
-              please use the form below to contact our support team. We'll get
-              back to you as soon as possible.
+              If you prefer not to use the forms above, or have other general
+              inquiries, you can also reach out to us directly:
             </p>
-
-            <div className="bg-[#1e1e1e] p-6 rounded-lg shadow-inner border border-gray-700">
-              <div className="mb-4 flex justify-between bg-gray-800 px-4 py-3 rounded-lg">
-                <span className="text-green-400 font-medium">
-                  Response time:
-                </span>
-                <span className="text-white">24-48 hours</span>
-              </div>
-              {/* YouTrack helpdesk form container */}
-              <div
-                ref={formContainerRef}
-                className="youtrack-form-container"
-              ></div>
-            </div>
-
-            <div className="mt-6 pt-6 border-t border-gray-700">
-              <h3 className="text-xl font-semibold mb-3 text-white">
-                Alternative Contact Methods
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <a
-                  href="https://discord.gg/BeszQxTn9D"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center p-3 bg-indigo-900 bg-opacity-40 hover:bg-opacity-60 rounded-lg transition-colors"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <a
+                href="https://discord.gg/BeszQxTn9D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center p-3 bg-indigo-900 bg-opacity-40 hover:bg-opacity-60 rounded-lg transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-indigo-400 mr-3 group-hover:text-indigo-300"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-indigo-400 mr-3 group-hover:text-indigo-300"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
-                  </svg>
-                  <span className="text-white font-medium">Discord Server</span>
-                </a>
-                <a
-                  href="mailto:support@astrostats.io"
-                  className="group flex items-center p-3 bg-blue-900 bg-opacity-40 hover:bg-opacity-60 rounded-lg transition-colors"
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                </svg>
+                <span className="text-white font-medium">Discord Server</span>
+              </a>
+              <a
+                href="mailto:support@astrostats.io"
+                className="group flex items-center p-3 bg-blue-900 bg-opacity-40 hover:bg-opacity-60 rounded-lg transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-blue-400 mr-3 group-hover:text-blue-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-blue-400 mr-3 group-hover:text-blue-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="text-white font-medium">Email Support</span>
-                </a>
-              </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="text-white font-medium">Email Support</span>
+              </a>
             </div>
           </div>
         </div>
