@@ -1,101 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
 
 const Support = () => {
-  useEffect(() => {
-    const loadedScripts = [];
-
-    // Helper function to load a single Jira collector
-    function loadJiraCollector(config) {
-      return new Promise((resolve, reject) => {
-        // Set up window properties for this specific collector
-        window.ATL_JQ_PAGE_PROPS = {
-          collectorId: config.collectorId,
-          triggerFunction: function (showDialog) {
-            if (window.jQuery) {
-              window
-                .jQuery("#" + config.triggerId)
-                .off("click." + config.namespace)
-                .on("click." + config.namespace, function (e) {
-                  e.preventDefault();
-                  showDialog();
-                });
-            } else {
-              console.error(
-                `jQuery not available for Jira collector: ${config.collectorId}`
-              );
-              reject(
-                new Error(
-                  `jQuery not available for Jira collector: ${config.collectorId}`
-                )
-              );
-              return;
-            }
-            resolve();
-          },
-        };
-
-        const scriptElement = document.createElement("script");
-        scriptElement.src = config.scriptUrlWithCollector;
-        scriptElement.type = "text/javascript";
-        scriptElement.async = true;
-        scriptElement.onload = () => {
-        };
-        scriptElement.onerror = () => {
-          console.error(
-            "Failed to load Jira script:",
-            config.scriptUrlWithCollector
-          );
-          reject(new Error("Script load error for " + config.collectorId));
-        };
-        document.body.appendChild(scriptElement);
-        loadedScripts.push({ ...config, scriptElement });
-      });
-    }
-
-    const bugCollectorConfig = {
-      collectorId: "34c24173",
-      triggerId: "bugReportTrigger",
-      namespace: "jiraBugCollector",
-      scriptUrlWithCollector:
-        process.env.NEXT_PUBLIC_JIRA_BUG_COLLECTOR_URL
-    };
-
-    const featureCollectorConfig = {
-      collectorId: "5b83178d",
-      triggerId: "featureRequestTrigger",
-      namespace: "jiraFeatureCollector",
-      scriptUrlWithCollector:
-        process.env.NEXT_PUBLIC_JIRA_FEATURE_COLLECTOR_URL
-    };
-
-    if (window.jQuery) {
-      loadJiraCollector(bugCollectorConfig)
-        .then(() => {
-          return loadJiraCollector(featureCollectorConfig);
-        })
-        .then(() => {
-        })
-        .catch((error) => {
-          console.error("Error initializing Jira collectors:", error);
-        });
-    } else {
-      console.error("jQuery is not available. Jira collectors will not be loaded.");
-    }
-
-    // Cleanup
-    return () => {
-      loadedScripts.forEach((config) => {
-        if (config.scriptElement && document.body.contains(config.scriptElement)) {
-          document.body.removeChild(config.scriptElement);
-        }
-        if (window.jQuery) {
-          window.jQuery("#" + config.triggerId).off("click." + config.namespace);
-        }
-      });
-    };
-  }, []);
-
   return (
     <div className="w-full my-10">
       {/* Hero Section with animated background */}
@@ -147,12 +52,15 @@ const Support = () => {
                 improve AstroStats for everyone.
               </p>
             </div>
-            <button
+            <a
+              href="https://danblock97.atlassian.net/jira/software/c/form/d1f5abf3-a005-411b-b1d2-b40d695f6d9e"
+              target="_blank"
+              rel="noopener noreferrer"
               id="bugReportTrigger"
               className="w-full mt-auto text-center px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold rounded-md transition-colors duration-300 text-lg"
             >
               Report Bug
-            </button>
+            </a>
           </div>
         </div>
 
@@ -186,12 +94,15 @@ const Support = () => {
                 requests here to help shape the future of AstroStats.
               </p>
             </div>
-            <button
+            <a
+              href="https://danblock97.atlassian.net/jira/software/c/form/59873e20-8b56-4587-b4df-21c4ed1f63ef"
+              target="_blank"
+              rel="noopener noreferrer"
               id="featureRequestTrigger"
               className="w-full mt-auto text-center px-6 py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-md transition-colors duration-300 text-lg"
             >
               Request Feature
-            </button>
+            </a>
           </div>
         </div>
       </div>
