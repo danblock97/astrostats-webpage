@@ -8,6 +8,9 @@ RUN npm run build
 
 # Stage 2: Serve the application using Nginx
 FROM nginx:stable-alpine
+
+# Remove default nginx config and copy your custom config
+RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/out /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
