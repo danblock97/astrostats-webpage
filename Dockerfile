@@ -9,10 +9,13 @@ RUN npm run build
 # Stage 2: Serve the application using Nginx
 FROM nginx:stable-alpine
 
-# Remove default nginx config and copy your custom config
-RUN rm /etc/nginx/conf.d/default.conf
+# Completely replace the main nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Remove default config directory to avoid conflicts
+RUN rm -rf /etc/nginx/conf.d/*
+
 COPY --from=builder /app/out /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Add curl for health checks
 RUN apk add --no-cache curl
