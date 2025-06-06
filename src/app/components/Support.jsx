@@ -53,7 +53,7 @@ const Support = () => {
 							</p>
 						</div>
 						<a
-							href="https://danblock97.atlassian.net/jira/software/c/form/a702ac46-9e24-48fa-b5d8-f41f20830390?atlOrigin=eyJpIjoiMjdhZGExOTFkMGYzNDRkMjlkNmMyYWZkNzIzNDkyMjUiLCJwIjoiaiJ9"
+							href="mailto:bugs@astrostats.info"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="bugReportTrigger"
@@ -95,7 +95,7 @@ const Support = () => {
 							</p>
 						</div>
 						<a
-							href="https://danblock97.atlassian.net/jira/software/c/form/88739902-44e9-49f4-a370-8a8907339cc6?atlOrigin=eyJpIjoiOGQ1YWQ2ZDNmMjllNDVlNDliNjZjY2ZkY2VhNGY2MjciLCJwIjoiaiJ9"
+							href="mailto:features@astrostats.info"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="featureRequestTrigger"
