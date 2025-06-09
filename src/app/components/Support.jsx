@@ -53,7 +53,7 @@ const Support = () => {
 							</p>
 						</div>
 						<a
-							href="mailto:bugs@astrostats.info"
+							href="https://roomy-pick-4e2.notion.site/20c05d85e58380ceb3f3fd4f883a58c6?pvs=105"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="bugReportTrigger"
@@ -95,7 +95,7 @@ const Support = () => {
 							</p>
 						</div>
 						<a
-							href="mailto:features@astrostats.info"
+							href="https://roomy-pick-4e2.notion.site/20c05d85e58380ceb3f3fd4f883a58c6?pvs=105"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="featureRequestTrigger"
