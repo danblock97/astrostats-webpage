@@ -53,7 +53,7 @@ const Support = () => {
 							</p>
 						</div>
 						<a
-							href="https://roomy-pick-4e2.notion.site/20c05d85e58380ceb3f3fd4f883a58c6?pvs=105"
+							href="https://danblock97.atlassian.net/jira/software/c/form/6d8d99f3-a598-495d-98a0-5c5014c56b3c?atlOrigin=eyJpIjoiNWMwYzA1MDkwMGEyNGI2NGI2YWIwMDZmNmY3MTQwZDIiLCJwIjoiaiJ9"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="bugReportTrigger"
@@ -95,7 +95,7 @@ const Support = () => {
 							</p>
 						</div>
 						<a
-							href="https://roomy-pick-4e2.notion.site/20c05d85e58380ceb3f3fd4f883a58c6?pvs=105"
+							href="https://danblock97.atlassian.net/jira/software/c/form/9553b89e-3f84-4e39-9ba6-91de147b95ac?atlOrigin=eyJpIjoiY2IyMDk3OTE0MTFhNGI2NzgwYzY2M2NhYjhhOTgzNDgiLCJwIjoiaiJ9"
 							target="_blank"
 							rel="noopener noreferrer"
 							id="featureRequestTrigger"
