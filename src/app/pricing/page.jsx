@@ -68,6 +68,7 @@ export default function PricingPage() {
   const [loading, setLoading] = useState(false);
   const [duration, setDuration] = useState("monthly");
   const [me, setMe] = useState({ premium: false, planDuration: "free", planTier: null });
+  const COMING_SOON = true;
 
   useEffect(() => {
     const load = async () => {
@@ -136,6 +137,7 @@ export default function PricingPage() {
 
   return (
     <main className="relative flex min-h-screen flex-col overflow-hidden bg-[#05060a] text-white">
+      <div className={COMING_SOON ? "blur-[2px] md:blur-[3px] pointer-events-none select-none" : undefined}>
       <section className="relative isolate flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-600 py-20 md:py-28">
         <div className="absolute inset-0 opacity-20 mix-blend-overlay bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/40 via-transparent to-transparent" />
         <div className="container mx-auto px-6 text-center">
@@ -193,12 +195,12 @@ export default function PricingPage() {
                 <button
                   className={`mt-8 w-full rounded-xl px-4 py-3 font-semibold text-white shadow-lg transition hover:-translate-y-0.5 disabled:opacity-50 ${isCurrent ? "bg-white/10 cursor-not-allowed" : "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500"}`}
                   onClick={() => startCheckout(t.key)}
-                  disabled={loading || (duration === "monthly" ? monthlyAmount == null : yearlyAmount == null) || isCurrent}
+                  disabled={COMING_SOON || loading || (duration === "monthly" ? monthlyAmount == null : yearlyAmount == null) || isCurrent}
                 >
                   {isCurrent ? (
                     <span className="inline-flex items-center gap-2 text-emerald-300"><CheckCircleIcon className="h-5 w-5"/> Current plan</span>
                   ) : (
-                    session ? "Upgrade" : "Login to purchase"
+                    COMING_SOON ? "Coming soon" : session ? "Upgrade" : "Login to purchase"
                   )}
                 </button>
               </div>
@@ -210,6 +212,16 @@ export default function PricingPage() {
           <p>Payments are processed securely by <span className="font-semibold text-white">Stripe</span>. We contribute <span className="font-semibold text-white">1% of all proceeds</span> to <span className="font-semibold text-white">Stripe Climate</span>.</p>
         </div>
       </div>
+      </div>
+      {/* Coming soon overlay */}
+      {COMING_SOON && (
+        <div className="pointer-events-auto absolute inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+          <div className="rounded-2xl bg-white/10 px-6 py-5 md:px-10 md:py-8 text-center shadow-2xl ring-1 ring-white/20 backdrop-blur-xl">
+            <div className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Premium Coming Soon</div>
+            <p className="mt-2 text-sm md:text-base text-white/90">You can preview pricing now. Subscriptions will open shortly.</p>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
