@@ -24,10 +24,29 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  scroll-behavior: smooth;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+  }
+  .animate-float {
+    animation: floatUp 6s ease-in-out infinite;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .bg-animated-gradient {
+    background: linear-gradient(90deg, rgba(99,102,241,0.25), rgba(168,85,247,0.25), rgba(99,102,241,0.25));
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
   }
 }

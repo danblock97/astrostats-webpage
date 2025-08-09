@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "./components/Footer";
+import Providers from "./components/Providers";
+import Navbar from "./components/Navbar";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,10 +24,13 @@ export default function RootLayout({ children }) {
 					strategy="beforeInteractive"
 				/>
 			</head>
-			<body className={inter.className}>
-				{children}
-				<Footer />
-			</body>
+            <body className={inter.className}>
+                <Providers>
+                    <Navbar />
+                    {children}
+                    <Footer />
+                </Providers>
+            </body>
 		</html>
 	);
 }
