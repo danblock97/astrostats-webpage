@@ -16,23 +16,39 @@ export default async function handler(req, res) {
   const billingKey = duration || plan; // prefer duration if provided
   const tierKey = (tier || "sponsor").toLowerCase(); // default to middle tier
   if (!priceId && billingKey) {
-    const matrix = {
-      supporter: {
-        monthly: process.env.STRIPE_PRICE_SUPPORTER_MONTHLY,
-        yearly: process.env.STRIPE_PRICE_SUPPORTER_YEARLY,
-      },
-      sponsor: {
-        monthly: process.env.STRIPE_PRICE_SPONSOR_MONTHLY,
-        yearly: process.env.STRIPE_PRICE_SPONSOR_YEARLY,
-      },
-      vip: {
-        monthly: process.env.STRIPE_PRICE_VIP_MONTHLY,
-        yearly: process.env.STRIPE_PRICE_VIP_YEARLY,
-      },
-    };
-    priceId = matrix[tierKey]?.[billingKey];
+    const T = tierKey.toUpperCase();
+    const D = billingKey.toUpperCase();
+    // Primary var names
+    const primary = process.env[`STRIPE_PRICE_${T}_${D}`];
+    // Alternate naming used in your .env: STRIPE_PRICE_PREMIUM_<DURATION>_<TIER>
+    const alt = process.env[`STRIPE_PRICE_PREMIUM_${D}_${T}`];
+    // Legacy single-tier fallback for Sponsor only
+    const legacy = tierKey === "sponsor" ? process.env[`STRIPE_PRICE_PREMIUM_${D}`] : undefined;
+    priceId = primary || alt || legacy;
   }
-  if (!priceId) return res.status(400).end("Missing plan/priceId");
+  if (!priceId) {
+    // Backwards compatibility: allow legacy PREMIUM_* envs for the middle tier
+    if (tierKey === "sponsor") {
+      const legacy = {
+        monthly: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
+        yearly: process.env.STRIPE_PRICE_PREMIUM_YEARLY,
+      };
+      priceId = legacy[billingKey];
+    }
+  }
+
+  if (!priceId) {
+    return res.status(400).json({
+      error: "Missing plan/priceId",
+      hint: "Ensure STRIPE_PRICE_<TIER>_<DURATION> env vars are set and restart the dev server.",
+      received: { tier: tierKey, duration: billingKey },
+      expectedEnv: {
+        supporter: ["STRIPE_PRICE_SUPPORTER_MONTHLY", "STRIPE_PRICE_SUPPORTER_YEARLY", "STRIPE_PRICE_PREMIUM_MONTHLY_SUPPORTER", "STRIPE_PRICE_PREMIUM_YEARLY_SUPPORTER"],
+        sponsor: ["STRIPE_PRICE_SPONSOR_MONTHLY", "STRIPE_PRICE_SPONSOR_YEARLY", "STRIPE_PRICE_PREMIUM_MONTHLY_SPONSOR", "STRIPE_PRICE_PREMIUM_YEARLY_SPONSOR", "STRIPE_PRICE_PREMIUM_MONTHLY", "STRIPE_PRICE_PREMIUM_YEARLY"],
+        vip: ["STRIPE_PRICE_VIP_MONTHLY", "STRIPE_PRICE_VIP_YEARLY", "STRIPE_PRICE_PREMIUM_MONTHLY_VIP", "STRIPE_PRICE_PREMIUM_YEARLY_VIP"],
+      },
+    });
+  }
 
   const users = await getUsersCollection();
   const user = await users.findOne({ discordId: session.user.discordId });

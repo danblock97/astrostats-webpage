@@ -111,7 +111,20 @@ export default function PricingPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tier: tierKey, duration }),
       });
-      if (!res.ok) throw new Error("Failed to create checkout session");
+      if (!res.ok) {
+        let details = "";
+        try {
+          const data = await res.json();
+          details = data?.error
+            ? `${data.error}. Tier: ${data?.received?.tier ?? "?"}, Duration: ${data?.received?.duration ?? "?"}`
+            : JSON.stringify(data);
+          // Also log expanded hint for developers
+          console.error("/api/stripe/checkout error", data);
+        } catch (_) {
+          details = await res.text();
+        }
+        throw new Error(details || "Failed to create checkout session");
+      }
       const data = await res.json();
       window.location.href = data.url;
     } catch (e) {

@@ -19,6 +19,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [isPremium, setIsPremium] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     function onDocClick(e) {
@@ -27,6 +28,10 @@ const Navbar = () => {
     }
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
+  }, []);
+
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   useEffect(() => {
@@ -45,8 +50,13 @@ const Navbar = () => {
 
 	// No useEffect needed anymore as we've removed the Jira issue collector functionality
 
-	return (
-    <nav className="fixed mx-auto top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#121212]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121212]/70">
+  if (!mounted) {
+    // Avoid hydration mismatches by rendering nothing until mounted
+    return null;
+  }
+
+  return (
+    <nav suppressHydrationWarning className="fixed mx-auto top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#121212]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121212]/70">
       <div className="flex container h-16 items-center justify-between mx-auto px-4">
                 <Link
                     href="/"
@@ -93,12 +103,24 @@ const Navbar = () => {
               Login with Discord
             </button>
           ) : (
-            <button
-              onClick={() => signOut()}
-              className="rounded-lg bg-white/10 px-3 py-2 text-xs md:text-sm text-white hover:bg-white/20"
-            >
-              Sign out
-            </button>
+            <div className="relative flex items-center gap-2" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen((v) => !v)}
+                className="flex items-center gap-2 rounded-full px-1 py-1"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={session.user?.image || "/images/astrostats.png"} alt="avatar" className="h-8 w-8 rounded-full" />
+                {isPremium && (
+                  <span className="ml-1 rounded-full bg-emerald-600/20 px-2 py-0.5 text-[10px] text-emerald-300">Premium</span>
+                )}
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 top-full z-20 mt-2 w-44 overflow-hidden rounded-lg border border-white/10 bg-[#0b0d13] p-1 text-sm shadow-xl">
+                  <Link href="/account" className="block rounded px-3 py-2 text-white hover:bg-white/10">Account</Link>
+                  <button onClick={() => signOut()} className="block w-full rounded px-3 py-2 text-left text-white hover:bg-white/10">Sign out</button>
+                </div>
+              )}
+            </div>
           )}
         </div>
 			</div>

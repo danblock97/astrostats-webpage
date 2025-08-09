@@ -46,6 +46,9 @@ export const authOptions = {
               username: profile.username,
               avatar: profile.avatar,
               updatedAt: new Date(),
+              // Ensure new users explicitly record free role/premium status
+              premium: false,
+              role: "free",
             },
           },
           { upsert: true }

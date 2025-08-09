@@ -91,6 +91,7 @@ async function upsertPremiumFromSubscription(discordId, customerId, subscription
   const plan = price?.id || undefined;
 
   const premium = status === "active" || status === "trialing";
+  const role = deriveTierFromPrice(plan);
 
   await users.updateOne(
     { discordId },
@@ -101,13 +102,44 @@ async function upsertPremiumFromSubscription(discordId, customerId, subscription
         status,
         currentPeriodEnd,
         cancelAtPeriodEnd,
-        plan,
-        premium,
+         plan,
+         premium,
+         role,
         updatedAt: new Date(),
       },
     },
     { upsert: true }
   );
+}
+
+function deriveTierFromPrice(priceId) {
+  if (!priceId) return null;
+  const map = {
+    supporter: [
+      process.env.STRIPE_PRICE_SUPPORTER_MONTHLY,
+      process.env.STRIPE_PRICE_SUPPORTER_YEARLY,
+      process.env.STRIPE_PRICE_PREMIUM_MONTHLY_SUPPORTER,
+      process.env.STRIPE_PRICE_PREMIUM_YEARLY_SUPPORTER,
+    ],
+    sponsor: [
+      process.env.STRIPE_PRICE_SPONSOR_MONTHLY,
+      process.env.STRIPE_PRICE_SPONSOR_YEARLY,
+      process.env.STRIPE_PRICE_PREMIUM_MONTHLY_SPONSOR,
+      process.env.STRIPE_PRICE_PREMIUM_YEARLY_SPONSOR,
+      process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
+      process.env.STRIPE_PRICE_PREMIUM_YEARLY,
+    ],
+    vip: [
+      process.env.STRIPE_PRICE_VIP_MONTHLY,
+      process.env.STRIPE_PRICE_VIP_YEARLY,
+      process.env.STRIPE_PRICE_PREMIUM_MONTHLY_VIP,
+      process.env.STRIPE_PRICE_PREMIUM_YEARLY_VIP,
+    ],
+  };
+  for (const [tier, ids] of Object.entries(map)) {
+    if (ids.filter(Boolean).includes(priceId)) return tier;
+  }
+  return null;
 }
 
 

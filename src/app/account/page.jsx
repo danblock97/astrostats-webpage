@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { CheckCircleIcon, XMarkIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 
-function Perk({ label, included }) {
+function Perk({ label, included = true }) {
   return (
     <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2">
       {included ? (
@@ -29,6 +29,23 @@ export default function AccountPage() {
       } catch {}
     };
     load();
+  }, []);
+
+  // If redirected from a successful checkout, force a sync with Stripe so the
+  // account reflects premium immediately even if webhooks are delayed in dev
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("success") === "1") {
+      (async () => {
+        try {
+          const r = await fetch("/api/stripe/sync", { method: "POST" });
+          if (r.ok) {
+            const res2 = await fetch("/api/me");
+            if (res2.ok) setMe(await res2.json());
+          }
+        } catch {}
+      })();
+    }
   }, []);
 
   async function openPortal() {
@@ -94,7 +111,9 @@ export default function AccountPage() {
               <img src={session.user?.image || "/images/astrostats.png"} alt="avatar" className="h-14 w-14 rounded-full ring-2 ring-white/30" />
               <div>
                 <h1 className="text-2xl font-extrabold tracking-tight">{session.user?.name}</h1>
-                <p className="text-white/90">{me?.premium ? "Premium member" : "Free plan"}</p>
+                <p className="text-white/90">
+                  {me?.premium ? `${(me?.role || me?.planTier || "premium").toString().charAt(0).toUpperCase() + (me?.role || me?.planTier || "premium").toString().slice(1)} member` : "Free plan"}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -128,7 +147,7 @@ export default function AccountPage() {
               {/* Subscription overview */}
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
                 <h2 className="text-lg font-semibold">Subscription</h2>
-                <p className="mt-1 text-gray-300">Premium unlocks more pets, quests, and larger SquibGames sessions.</p>
+                <p className="mt-1 text-gray-300">Premium unlocks more quests, pets, and larger SquibGames sessions.</p>
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                     <div className="text-xs text-gray-400">Status</div>
@@ -141,6 +160,10 @@ export default function AccountPage() {
                     <div className="mt-1 font-medium capitalize">{me?.premium ? (me?.planDuration || "monthly") : "—"}</div>
                   </div>
                   <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                    <div className="text-xs text-gray-400">Tier</div>
+                    <div className="mt-1 font-medium capitalize">{me?.premium ? (me?.role || me?.planTier || "premium") : "free"}</div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-white/5 p-4 sm:col-span-3">
                     <div className="text-xs text-gray-400">Renewal</div>
                     <div className="mt-1 font-medium">{me?.currentPeriodEnd ? new Date(me.currentPeriodEnd * 1000).toLocaleDateString() : "—"}</div>
                   </div>
@@ -155,18 +178,41 @@ export default function AccountPage() {
             <div id="perks" className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
               <h2 className="text-lg font-semibold">Your perks</h2>
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <Perk label="All commands" included />
-                <Perk label="Pets: 1" included={!me?.premium} />
-                <Perk label="Pets: 3" included={!!me?.premium} />
-                <Perk label="Daily quests: 3" included />
-                <Perk label="+3 extra daily quests" included={!!me?.premium} />
-                <Perk label="XP multiplier: 1x" included={!me?.premium} />
-                <Perk label="XP multiplier: 1.2x" included={!!me?.premium} />
-                <Perk label="SquibGames: 15 players" included={!me?.premium} />
-                <Perk label="SquibGames: 50 players" included={!!me?.premium} />
+                {(() => {
+                  const role = me?.premium ? (me?.role || me?.planTier || "supporter") : "free";
+                  const itemsByRole = {
+                    free: [
+                      "All commands",
+                      "Pets: 1",
+                      "Daily quests: 3",
+                      "SquibGames: 15 players",
+                    ],
+                    supporter: [
+                      "Access to future premium commands",
+                      "Premium badge on your profile",
+                      "+2 extra daily pet quests",
+                      "SquibGames: up to 20 players",
+                    ],
+                    sponsor: [
+                      "Access to future premium commands",
+                      "Premium badge on your profile",
+                      "+5 extra daily pet quests",
+                      "+1 extra pet",
+                      "SquibGames: up to 50 players",
+                    ],
+                    vip: [
+                      "Access to future premium commands",
+                      "Premium badge on your profile",
+                      "+8 extra daily pet quests",
+                      "+3 extra pets",
+                      "SquibGames: up to 75 players",
+                    ],
+                  };
+                  return itemsByRole[role].map((label) => <Perk key={label} label={label} included />);
+                })()}
               </div>
               {!me?.premium && (
-                <div className="mt-6 text-sm text-gray-300">Want more? Upgrade on the <a href="/pricing" className="text-indigo-300 underline">Pricing</a> page.</div>
+                <div className="mt-6 text-sm text-gray-300">Want more? Upgrade on the <a href="/pricing" className="text-indigo-300 underline">Premium</a> page.</div>
               )}
             </div>
           </section>

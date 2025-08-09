@@ -11,16 +11,16 @@ export default async function handler(req, res) {
   try {
     const priceIds = {
       supporter: {
-        monthly: process.env.STRIPE_PRICE_SUPPORTER_MONTHLY,
-        yearly: process.env.STRIPE_PRICE_SUPPORTER_YEARLY,
+        monthly: process.env.STRIPE_PRICE_SUPPORTER_MONTHLY || process.env.STRIPE_PRICE_PREMIUM_MONTHLY_SUPPORTER,
+        yearly: process.env.STRIPE_PRICE_SUPPORTER_YEARLY || process.env.STRIPE_PRICE_PREMIUM_YEARLY_SUPPORTER,
       },
       sponsor: {
-        monthly: process.env.STRIPE_PRICE_SPONSOR_MONTHLY,
-        yearly: process.env.STRIPE_PRICE_SPONSOR_YEARLY,
+        monthly: process.env.STRIPE_PRICE_SPONSOR_MONTHLY || process.env.STRIPE_PRICE_PREMIUM_MONTHLY_SPONSOR || process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
+        yearly: process.env.STRIPE_PRICE_SPONSOR_YEARLY || process.env.STRIPE_PRICE_PREMIUM_YEARLY_SPONSOR || process.env.STRIPE_PRICE_PREMIUM_YEARLY,
       },
       vip: {
-        monthly: process.env.STRIPE_PRICE_VIP_MONTHLY,
-        yearly: process.env.STRIPE_PRICE_VIP_YEARLY,
+        monthly: process.env.STRIPE_PRICE_VIP_MONTHLY || process.env.STRIPE_PRICE_PREMIUM_MONTHLY_VIP,
+        yearly: process.env.STRIPE_PRICE_VIP_YEARLY || process.env.STRIPE_PRICE_PREMIUM_YEARLY_VIP,
       },
     };
 
