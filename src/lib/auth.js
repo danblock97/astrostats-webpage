@@ -1,9 +1,10 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const DiscordProvider = require("next-auth/providers/discord").default;
-import { getUsersCollection } from "../lib/mongo";
 
 export const authOptions = {
+  // Allow NextAuth to trust the host header in production (e.g., on Vercel)
+  trustHost: true,
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
@@ -34,7 +35,7 @@ export const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (token?.discordId) {
+      if (token?.discordId && session?.user) {
         session.user.discordId = token.discordId;
       }
       return session;
@@ -42,6 +43,10 @@ export const authOptions = {
     async signIn({ profile }) {
       try {
         if (!profile?.id) return false;
+        // Lazy-load the database module to avoid throwing at import time
+        // when environment variables (e.g., MONGODB_URI) are not set for
+        // read-only endpoints like /api/auth/session.
+        const { getUsersCollection } = await import("../lib/mongo");
         const users = await getUsersCollection();
         await users.updateOne(
           { discordId: profile.id },
