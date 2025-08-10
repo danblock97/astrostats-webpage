@@ -1,7 +1,7 @@
-import NextAuth from "next-auth"
-import DiscordProvider from "next-auth/providers/discord"
+const NextAuth = require("next-auth").default || require("next-auth")
+const DiscordProvider = require("next-auth/providers/discord").default || require("next-auth/providers/discord")
 
-const handler = NextAuth({
+const authOptions = {
   trustHost: true,
   providers: [
     DiscordProvider({
@@ -73,8 +73,10 @@ const handler = NextAuth({
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-})
+}
 
-export { handler as GET, handler as POST }
+const handler = NextAuth(authOptions)
+
+module.exports = { GET: handler, POST: handler }
 
 
