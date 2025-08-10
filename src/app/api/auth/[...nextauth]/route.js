@@ -2,10 +2,31 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 async function createHandler() {
-  const NextAuthMod = await import("next-auth");
-  const NextAuth = NextAuthMod.default ?? NextAuthMod;
-  const DiscordMod = await import("next-auth/providers/discord");
-  const DiscordProvider = DiscordMod.default ?? DiscordMod;
+  // Robustly resolve NextAuth function across ESM/CJS builds
+  const nextAuthNs = await import("next-auth");
+  let NextAuth = nextAuthNs?.default || nextAuthNs;
+  if (typeof NextAuth !== "function") {
+    const { createRequire } = await import("module");
+    const req = createRequire(import.meta.url);
+    const reqMod = req("next-auth/next");
+    NextAuth = typeof reqMod === "function" ? reqMod : reqMod?.default;
+  }
+
+  // Robustly resolve DiscordProvider across ESM/CJS builds
+  let discordNs;
+  try {
+    discordNs = await import("next-auth/providers/discord");
+  } catch {}
+  let DiscordProvider = discordNs?.default || discordNs?.DiscordProvider;
+  if (typeof DiscordProvider !== "function") {
+    const { createRequire } = await import("module");
+    const req = createRequire(import.meta.url);
+    const reqMod = req("next-auth/providers/discord");
+    DiscordProvider = reqMod?.default || reqMod?.DiscordProvider || reqMod;
+  }
+  if (typeof DiscordProvider !== "function") {
+    throw new Error("DiscordProvider could not be resolved to a function");
+  }
 
   const authOptions = {
     trustHost: true,
