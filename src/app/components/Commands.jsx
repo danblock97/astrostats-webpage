@@ -69,6 +69,20 @@ const commandData = [
     category: "social",
     icon: "🎭",
   },
+  {
+    title: "Would You Rather",
+    usage: "/wouldyourather",
+    description: "SFW & NSFW",
+    category: "social",
+    icon: "🤔",
+  },
+  {
+    title: "Premium Info",
+    usage: "/premium",
+    description: "Information about AstroStats premium features",
+    category: "system",
+    icon: "💎",
+  },
 ];
 
 const tab_data = [

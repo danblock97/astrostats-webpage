@@ -68,7 +68,7 @@ export default function PricingPage() {
   const [loading, setLoading] = useState(false);
   const [duration, setDuration] = useState("monthly");
   const [me, setMe] = useState({ premium: false, planDuration: "free", planTier: null });
-  const COMING_SOON = true;
+  const COMING_SOON = false;
 
   useEffect(() => {
     const load = async () => {
