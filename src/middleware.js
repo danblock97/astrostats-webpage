@@ -7,7 +7,7 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ["/account", "/api/stripe/checkout", "/api/stripe/portal"],
+  matcher: ["/api/stripe/checkout", "/api/stripe/portal"],
 };
 
 
