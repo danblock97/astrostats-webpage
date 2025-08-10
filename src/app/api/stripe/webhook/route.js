@@ -1,27 +1,25 @@
-import { stripe } from "../../../lib/stripe";
-import { getUsersCollection } from "../../../lib/mongo";
+import { stripe } from "../../../../lib/stripe";
+import { getUsersCollection } from "../../../../lib/mongo";
+import { NextResponse } from "next/server";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const preferredRegion = "auto";
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
-
-  const sig = req.headers["stripe-signature"];
+export async function POST(request) {
+  const sig = request.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  if (!webhookSecret) return res.status(500).end("Webhook secret not configured");
+  if (!webhookSecret) return new NextResponse("Webhook secret not configured", { status: 500 });
 
-  const rawBody = await buffer(req);
+  const rawBody = await request.arrayBuffer();
+  const rawBuffer = Buffer.from(rawBody);
 
   let event;
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
+    event = stripe.webhooks.constructEvent(rawBuffer, sig, webhookSecret);
   } catch (err) {
     console.error("Webhook signature verification failed.", err.message);
-    return res.status(400).end("Bad signature");
+    return new NextResponse("Bad signature", { status: 400 });
   }
 
   try {
@@ -43,20 +41,10 @@ export default async function handler(req, res) {
     }
   } catch (e) {
     console.error("Webhook handling error", e);
-    return res.status(500).end("Webhook error");
+    return new NextResponse("Webhook error", { status: 500 });
   }
 
-  return res.json({ received: true });
-}
-
-import { Readable } from "stream";
-function buffer(readable) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readable.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
-    readable.on("end", () => resolve(Buffer.concat(chunks)));
-    readable.on("error", reject);
-  });
+  return NextResponse.json({ received: true });
 }
 
 async function handleCheckoutCompleted(session) {
@@ -102,9 +90,9 @@ async function upsertPremiumFromSubscription(discordId, customerId, subscription
         status,
         currentPeriodEnd,
         cancelAtPeriodEnd,
-         plan,
-         premium,
-         role,
+        plan,
+        premium,
+        role,
         updatedAt: new Date(),
       },
     },

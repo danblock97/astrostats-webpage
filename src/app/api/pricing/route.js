@@ -1,13 +1,10 @@
-import { stripe } from "../../lib/stripe";
+import { stripe } from "../../../lib/stripe";
+import { NextResponse } from "next/server";
 
-/**
- * Returns public pricing information for all tiers using Stripe Price IDs
- * configured in environment variables. This prevents exposing price IDs or
- * amounts in client-side bundles while keeping values source-of-truth in Stripe.
- */
-export default async function handler(req, res) {
-  if (req.method !== "GET") return res.status(405).end();
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
+export async function GET() {
   try {
     const priceIds = {
       supporter: {
@@ -24,7 +21,6 @@ export default async function handler(req, res) {
       },
     };
 
-    // Fetch Stripe price objects only for configured IDs
     async function fetchPrice(priceId) {
       if (!priceId) return null;
       const price = await stripe.prices.retrieve(priceId);
@@ -36,14 +32,7 @@ export default async function handler(req, res) {
       };
     }
 
-    const [
-      supMo,
-      supYr,
-      spoMo,
-      spoYr,
-      vipMo,
-      vipYr,
-    ] = await Promise.all([
+    const [supMo, supYr, spoMo, spoYr, vipMo, vipYr] = await Promise.all([
       fetchPrice(priceIds.supporter.monthly),
       fetchPrice(priceIds.supporter.yearly),
       fetchPrice(priceIds.sponsor.monthly),
@@ -62,10 +51,10 @@ export default async function handler(req, res) {
       },
     };
 
-    return res.status(200).json(result);
+    return NextResponse.json(result, { status: 200 });
   } catch (e) {
     console.error("/api/pricing error", e);
-    return res.status(500).json({ error: "Failed to load pricing" });
+    return NextResponse.json({ error: "Failed to load pricing" }, { status: 500 });
   }
 }
 

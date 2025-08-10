@@ -1,23 +1,28 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "./auth/[...nextauth]";
-import { getUsersCollection } from "../../lib/mongo";
+import { getToken } from "next-auth/jwt";
+import { getUsersCollection } from "../../../lib/mongo";
+import { NextResponse } from "next/server";
 
-export default async function handler(req, res) {
-  if (req.method !== "GET") return res.status(405).end();
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
-  const session = await getServerSession(req, res, authOptions);
-  if (!session?.user?.discordId) return res.status(401).end("Unauthorized");
+export async function GET(request) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  if (!token?.discordId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   const users = await getUsersCollection();
-  const user = await users.findOne({ discordId: session.user.discordId });
-  if (!user) return res.status(200).json({
-    discordId: session.user.discordId,
-    premium: false,
-    status: null,
-    plan: null,
-    planDuration: "free",
-    role: null,
-  });
+  const user = await users.findOne({ discordId: token.discordId });
+  if (!user) {
+    return NextResponse.json({
+      discordId: token.discordId,
+      premium: false,
+      status: null,
+      plan: null,
+      planDuration: "free",
+      role: null,
+    });
+  }
 
   const priceMatrix = {
     supporter: {
@@ -52,7 +57,7 @@ export default async function handler(req, res) {
     if (!planTier) planDuration = "pro";
   }
 
-  return res.status(200).json({
+  return NextResponse.json({
     discordId: user.discordId,
     premium: Boolean(user.premium),
     status: user.status || null,

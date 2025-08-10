@@ -1,4 +1,6 @@
-import DiscordProvider from "next-auth/providers/discord";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const DiscordProvider = require("next-auth/providers/discord").default;
 import { getUsersCollection } from "../lib/mongo";
 
 export const authOptions = {
@@ -21,6 +23,9 @@ export const authOptions = {
     }),
   ],
   session: { strategy: "jwt" },
+  pages: {
+    signIn: "/account",
+  },
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account && profile) {

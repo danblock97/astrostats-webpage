@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../../lib/auth";
-import { stripe } from "../../../lib/stripe";
-import { getUsersCollection } from "../../../lib/mongo";
+import { getToken } from "next-auth/jwt";
+import { stripe } from "../../../../lib/stripe";
+import { getUsersCollection } from "../../../../lib/mongo";
+import { NextResponse } from "next/server";
 
 function deriveTierFromPrice(priceId) {
   if (!priceId) return null;
@@ -33,24 +33,31 @@ function deriveTierFromPrice(priceId) {
   return null;
 }
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
-  const session = await getServerSession(req, res, authOptions);
-  if (!session?.user?.discordId) return res.status(401).end("Unauthorized");
+export async function POST(request) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+  if (!token?.discordId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
 
   const users = await getUsersCollection();
-  const user = await users.findOne({ discordId: session.user.discordId });
-  if (!user?.stripeCustomerId) return res.status(400).json({ error: "No Stripe customer on file" });
+  const user = await users.findOne({ discordId: token.discordId });
+  if (!user?.stripeCustomerId) {
+    return NextResponse.json({ error: "No Stripe customer on file" }, { status: 400 });
+  }
 
-  const list = await stripe.subscriptions.list({ customer: user.stripeCustomerId, status: "all", limit: 10 });
+  const list = await stripe.subscriptions.list({
+    customer: user.stripeCustomerId,
+    status: "all",
+    limit: 10,
+  });
   const active = list.data.find((s) => ["active", "trialing"].includes(s.status));
 
   if (!active) {
     await users.updateOne(
-      { discordId: session.user.discordId },
+      { discordId: token.discordId },
       { $set: { premium: false, status: "canceled", updatedAt: new Date() } }
     );
-    return res.status(200).json({ premium: false, status: "canceled" });
+    return NextResponse.json({ premium: false, status: "canceled" }, { status: 200 });
   }
 
   const price = active.items?.data?.[0]?.price;
@@ -73,7 +80,7 @@ export default async function handler(req, res) {
     }
   );
 
-  return res.status(200).json({ premium: true, role, plan });
+  return NextResponse.json({ premium: true, role, plan }, { status: 200 });
 }
 
 
