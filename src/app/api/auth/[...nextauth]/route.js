@@ -2,8 +2,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 async function createHandler() {
-  const { default: NextAuth } = await import("next-auth");
-  const { default: DiscordProvider } = await import("next-auth/providers/discord");
+  const NextAuthMod = await import("next-auth");
+  const NextAuth = NextAuthMod.default ?? NextAuthMod;
+  const DiscordMod = await import("next-auth/providers/discord");
+  const DiscordProvider = DiscordMod.default ?? DiscordMod;
 
   const authOptions = {
     trustHost: true,
@@ -11,7 +13,9 @@ async function createHandler() {
       DiscordProvider({
         clientId: process.env.DISCORD_CLIENT_ID,
         clientSecret: process.env.DISCORD_CLIENT_SECRET,
-        authorization: { params: { scope: "identify" } },
+        authorization: { url: "https://discord.com/api/oauth2/authorize", params: { scope: "identify" } },
+        token: "https://discord.com/api/oauth2/token",
+        userinfo: "https://discord.com/api/users/@me",
         profile(profile) {
           return {
             id: profile.id,
@@ -23,11 +27,25 @@ async function createHandler() {
         },
       }),
     ],
+    debug: true,
+    logger: {
+      error(code, metadata) {
+        console.error("[NextAuth][error]", code, metadata);
+      },
+      warn(code) {
+        console.warn("[NextAuth][warn]", code);
+      },
+      debug(code, metadata) {
+        console.log("[NextAuth][debug]", code, metadata);
+      },
+    },
     session: { strategy: "jwt" },
     pages: { signIn: "/account" },
     callbacks: {
-      async jwt({ token, account, profile }) {
-        if (account && profile) token.discordId = profile.id;
+      async jwt({ token, account, profile, user }) {
+        // profile is undefined on callback after first sign-in; use user.id when available
+        const discordId = profile?.id || user?.id;
+        if (account && discordId) token.discordId = discordId;
         return token;
       },
       async session({ session, token }) {
@@ -37,25 +55,29 @@ async function createHandler() {
       async signIn({ profile }) {
         try {
           if (!profile?.id) return false;
-          const { getUsersCollection } = await import("../../../../lib/mongo");
-          const users = await getUsersCollection();
-          await users.updateOne(
-            { discordId: profile.id },
-            {
-              $setOnInsert: { createdAt: new Date() },
-              $set: {
-                discordId: profile.id,
-                username: profile.username,
-                avatar: profile.avatar,
-                updatedAt: new Date(),
+          // Skip DB upsert if MONGODB_URI is not configured; do not block sign-in
+          if (process.env.MONGODB_URI) {
+            const { getUsersCollection } = await import("../../../../lib/mongo");
+            const users = await getUsersCollection();
+            await users.updateOne(
+              { discordId: profile.id },
+              {
+                $setOnInsert: { createdAt: new Date() },
+                $set: {
+                  discordId: profile.id,
+                  username: profile.username,
+                  avatar: profile.avatar,
+                  updatedAt: new Date(),
+                },
               },
-            },
-            { upsert: true }
-          );
+              { upsert: true }
+            );
+          }
           return true;
         } catch (err) {
           console.error("signIn upsert failed", err);
-          return false;
+          // Allow sign-in even if DB write fails to avoid auth error loop
+          return true;
         }
       },
     },
