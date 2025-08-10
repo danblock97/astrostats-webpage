@@ -77,6 +77,7 @@ const authOptions = {
 
 const handler = NextAuth(authOptions)
 
-module.exports = { GET: handler, POST: handler }
+export const GET = handler
+export const POST = handler
 
 
