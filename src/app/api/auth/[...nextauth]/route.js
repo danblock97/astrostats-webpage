@@ -2,7 +2,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 async function createHandler() {
-  const { default: NextAuth } = await import("next-auth/next");
+  const { default: NextAuth } = await import("next-auth");
   const { default: DiscordProvider } = await import("next-auth/providers/discord");
 
   const authOptions = {
