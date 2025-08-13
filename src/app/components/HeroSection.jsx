@@ -23,8 +23,12 @@ const HeroSection = () => {
 								1000,
 								"League of Legends",
 								1000,
-								"Fortnite",
-								1000,
+							"Fortnite",
+							1000,
+							"Pet Battles",
+							1000,
+							"Squid Games",
+							1000,
 							]}
 							wrapper="span"
 							speed={50}
@@ -35,7 +39,7 @@ const HeroSection = () => {
 						Your ultimate companion for staying updated on daily horoscopes and
 						tracking player stats across various popular games! Whether you're
 						seeking cosmic guidance or aiming to dominate in your favorite
-						gaming titles like Apex Legends, League of Legends, and Fortnite,
+						gaming titles like Apex Legends, League of Legends, Fortnite, Pet Battles, and Squid Games,
 						this bot has you covered.
 					</p>
 					<Link href="https://discord.com/oauth2/authorize?client_id=1088929834748616785&permissions=2147747840&scope=bot">
