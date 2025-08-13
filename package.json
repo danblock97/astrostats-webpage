@@ -11,14 +11,16 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@stripe/stripe-js": "^2.4.0",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "jquery": "^3.7.1",
     "mongodb": "^6.7.0",
     "next": "^15.2.4",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "stripe": "^16.6.0",
-    "react-type-animation": "^3.2.0"
+    "react-type-animation": "^3.2.0",
+    "stripe": "^16.6.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
