@@ -11,8 +11,8 @@ const Support = () => {
 	}, []);
 
 
-	const bugReportUrl = "https://danblock97.atlassian.net/jira/software/c/form/e29461c7-c04d-468a-80ea-38d9d339d4ee?atlOrigin=eyJpIjoiMzNjZDA5MWI3N2MwNGMxYTg1N2RlZjU5YzBlZmZkY2MiLCJwIjoiaiJ9";
-	const featureRequestUrl = "https://danblock97.atlassian.net/jira/software/c/form/90b55b61-8bd6-418e-8365-a905d956aa26?atlOrigin=eyJpIjoiMDE1ZDQ5MjlhOTA0NDkxNDk1NGY5YTc0ZDk2YTRlMmIiLCJwIjoiaiJ9";
+	const bugReportUrl = "https://danblock97.atlassian.net/jira/software/c/form/f19f8d4d-c4a1-4645-87a7-93a49750f56f?atlOrigin=eyJpIjoiOTg5M2Y2ZWI0MGIwNDc2Y2FiZDE0NjA1MTkyMzFjNTkiLCJwIjoiaiJ9";
+	const featureRequestUrl = "https://danblock97.atlassian.net/jira/software/c/form/36352962-46ac-4fa2-be41-2fed3d98b100?atlOrigin=eyJpIjoiY2VmMWYwZWEwZTMzNDY3Yjg5NzBlOWE3NjM4MTIyNTkiLCJwIjoiaiJ9";
 
 	const openExternalForm = (url) => {
 		window.open(url, '_blank', 'noopener noreferrer');
