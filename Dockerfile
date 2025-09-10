@@ -2,12 +2,8 @@
 FROM node:20-alpine AS builder
 
 # Do not set NODE_ENV=production in the builder stage; devDeps are needed
-# Provide safe placeholder envs required during Next.js build (not used at runtime)
-ENV NEXT_TELEMETRY_DISABLED=1 \
-    STRIPE_SECRET_KEY="placeholder" \
-    MONGODB_URI="mongodb://localhost:27017/placeholder" \
-    MONGODB_DB="astrostats" \
-    NEXTAUTH_SECRET="placeholder"
+# Keep build free of secrets; Next.js only needs public envs at build time.
+ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app
 
@@ -27,9 +23,7 @@ RUN npm run build
 FROM node:20-alpine AS runner
 
 ENV NODE_ENV=production \
-    NEXT_TELEMETRY_DISABLED=1 \
-    HOSTNAME=0.0.0.0 \
-    PORT=3000
+    NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app
 
@@ -50,5 +44,5 @@ USER app
 
 EXPOSE 3000
 
-# Run Next.js in production
-CMD ["npm", "run", "start", "--", "-H", "0.0.0.0", "-p", "3000"]
+# Run Next.js in production, binding to all interfaces and honoring $PORT
+CMD ["sh", "-c", "npm run start -- -H 0.0.0.0 -p ${PORT:-3000}"]
