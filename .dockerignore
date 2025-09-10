@@ -1,0 +1,13 @@
+# Prevent large and sensitive files from being sent to Docker build context
+.git
+.github
+node_modules
+.next
+.env*
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+Dockerfile*
+docker-compose*
+certificates
+
