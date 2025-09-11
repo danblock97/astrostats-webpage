@@ -16,6 +16,14 @@ RUN npm ci
 
 # Copy the rest of the source and build
 COPY . .
+
+# Expose public build-time vars so Next.js can inline them
+# (values are supplied via docker-compose build args)
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ENV NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+
 RUN npm run build
 
 
