@@ -37,7 +37,7 @@ services:
       - STRIPE_PRICE_VIP_YEARLY
       - STRIPE_PRICE_PREMIUM_MONTHLY_VIP
       - STRIPE_PRICE_PREMIUM_YEARLY_VIP
-    ports:
-      # Map host port to container port; override host with PORT env if desired
-      - "${PORT:-3000}:3000"
+    expose:
+      # Expose container port for internal networking / reverse proxy
+      - "3000"
     restart: unless-stopped
