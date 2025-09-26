@@ -9,10 +9,9 @@ const Support = () => {
     }
   }, []);
 
-  const BUG_REPORT_URL =
-    "https://roomy-pick-4e2.notion.site/26d05d85e5838014918dd4758dbfb224?pvs=105";
-  const ROADMAP_URL =
-    "https://www.notion.so/AstroStats-Public-Roadmap-26d05d85e58380aea820fee39bb922a6?source=copy_link";
+  const DISCORD_BOT_ISSUES_URL = "https://github.com/danblock97/AstroStats/issues";
+  const SUPPORT_SITE_ISSUES_URL =
+    "https://github.com/danblock97/astrostats-webpage/issues";
 
   return (
     <div className="w-full my-10">
@@ -33,23 +32,23 @@ const Support = () => {
         </header>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          {/* Primary: bug report (brand gradient) */}
+          {/* Primary: support site bug report (brand gradient) */}
           <a
-            href={BUG_REPORT_URL}
+            href={SUPPORT_SITE_ISSUES_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white font-medium hover:opacity-90 transition"
           >
-            Report a bug
+            Report a site bug
           </a>
-          {/* Secondary: roadmap (thin, gradient border) */}
+          {/* Secondary: Discord bot issues & features (thin, gradient border) */}
           <a
-            href={ROADMAP_URL}
+            href={DISCORD_BOT_ISSUES_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="px-1 py-1 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 transition"
           >
-            <span className="block rounded-full bg-[#121212] px-5 py-1.5 text-white font-medium">View roadmap</span>
+            <span className="block rounded-full bg-[#121212] px-5 py-1.5 text-white font-medium">Discord bot issues & feature requests</span>
           </a>
         </div>
 
@@ -62,9 +61,9 @@ const Support = () => {
             </p>
           </div>
           <div className="p-5 rounded-lg bg-gradient-to-br from-purple-900/30 to-indigo-900/20 border border-purple-500/30">
-            <h2 className="text-white font-semibold">Roadmap & updates</h2>
+            <h2 className="text-white font-semibold">Issue tracker & updates</h2>
             <p className="mt-2 text-gray-300 text-sm">
-              Track what we’re building, what’s planned next, and recent releases in one place.
+              Track reported bugs, planned improvements, and feature ideas in GitHub Issues.
             </p>
           </div>
           <div className="p-5 rounded-lg bg-gradient-to-br from-purple-900/30 to-indigo-900/20 border border-purple-500/30">
@@ -73,7 +72,7 @@ const Support = () => {
               <li>Re-invite the bot and confirm required permissions.</li>
               <li>Check command syntax and required arguments.</li>
               <li>Try again after a minute in case of rate limits.</li>
-              <li>See if the issue is already on the roadmap.</li>
+              <li>See if the issue or request already exists in GitHub Issues.</li>
             </ul>
           </div>
           <div className="p-5 rounded-lg bg-gradient-to-br from-purple-900/30 to-indigo-900/20 border border-purple-500/30">
