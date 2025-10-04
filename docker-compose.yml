@@ -1,24 +1,8 @@
-version: '3.8'
-
 services:
-  # Next.js application
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: astrostats-app
-    restart: unless-stopped
-    env_file:
-      - .env
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    networks:
-      - astrostats-network
-
-networks:
-  astrostats-network:
-    driver: bridge
+    ports:
+      - "3000:3000"
+    restart: always
