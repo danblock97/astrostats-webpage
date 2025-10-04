@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: astrostats-web
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      # Application Configuration
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=3000
+      
+      # Application URLs
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      
+      # NextAuth Configuration
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      
+      # Discord OAuth
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+      - DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}
+      
+      # MongoDB Configuration (MongoDB Atlas)
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_DB=${MONGODB_DB:-astrostats_database}
+      
+      # Stripe Configuration
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      
+      # Stripe Price IDs
+      - STRIPE_PRICE_PREMIUM_MONTHLY_VIP=${STRIPE_PRICE_PREMIUM_MONTHLY_VIP}
+      - STRIPE_PRICE_PREMIUM_MONTHLY_SUPPORTER=${STRIPE_PRICE_PREMIUM_MONTHLY_SUPPORTER}
+      - STRIPE_PRICE_PREMIUM_MONTHLY_SPONSOR=${STRIPE_PRICE_PREMIUM_MONTHLY_SPONSOR}
+      - STRIPE_PRICE_PREMIUM_YEARLY_VIP=${STRIPE_PRICE_PREMIUM_YEARLY_VIP}
+      - STRIPE_PRICE_PREMIUM_YEARLY_SUPPORTER=${STRIPE_PRICE_PREMIUM_YEARLY_SUPPORTER}
+      - STRIPE_PRICE_PREMIUM_YEARLY_SPONSOR=${STRIPE_PRICE_PREMIUM_YEARLY_SPONSOR}
+    restart: always
+    networks:
+      - astrostats-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  astrostats-network:
+    driver: bridge
