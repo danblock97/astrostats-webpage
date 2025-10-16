@@ -36,7 +36,7 @@ const Support = () => {
           <div className="rounded-xl border border-white/10 bg-gray-900/40 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
             <div className="flex flex-col items-center text-center gap-4">
               <div className="inline-flex items-center gap-2">
-                <svg className="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
                 </svg>
                 <h2 className="text-lg font-semibold text-white">Unified Bug Report</h2>
