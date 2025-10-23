@@ -9,9 +9,11 @@ const Support = () => {
     }
   }, []);
 
-  // Unified bug-report form (covers both site and Discord bot)
+  // Links for bug reporting and feature requests
   const BUG_REPORT_FORM_URL =
-    "https://www.notion.so/28df8761b6498137841fce83102c7139?pvs=106";
+    "https://danblock97.atlassian.net/jira/software/c/form/13d822b1-3696-48be-935c-457148c78b91?atlOrigin=eyJpIjoiM2RhY2E2YWUyNGM5NDg1Nzk2OGI4YjFiMzA0NjRkY2MiLCJwIjoiaiJ9";
+  const FEATURE_REQUEST_FORM_URL =
+    "https://danblock97.atlassian.net/jira/software/c/form/ce09356c-5fda-4e58-aed7-061a3d67672a?atlOrigin=eyJpIjoiNTkwMDlkOWE4MmQwNDM5MjhlNDY0N2JkZGRlM2QwMGMiLCJwIjoiaiJ9";
 
   return (
     <div className="w-full my-10">
@@ -39,19 +41,29 @@ const Support = () => {
                 <svg className="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
                 </svg>
-                <h2 className="text-lg font-semibold text-white">Unified Bug Report</h2>
+                <h2 className="text-lg font-semibold text-white">Submit Feedback</h2>
               </div>
               <p className="text-sm text-gray-300 max-w-prose">
-                Use a single form to report issues for either the website or the Discord bot. Include steps to reproduce and any relevant screenshots.
+                Use the links below to report bugs or request new features for the website or Discord bot. Include as much detail as possible so we can help quickly.
               </p>
-              <a
-                href={BUG_REPORT_FORM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium hover:opacity-90 transition text-center"
-              >
-                Report a Bug (Site or Bot)
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3 w-full justify-center">
+                <a
+                  href={BUG_REPORT_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-medium hover:opacity-90 transition text-center"
+                >
+                  Report a Bug
+                </a>
+                <a
+                  href={FEATURE_REQUEST_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-2.5 rounded-full bg-gray-800 border border-white/10 text-white font-medium hover:bg-gray-700 transition text-center"
+                >
+                  Request a Feature
+                </a>
+              </div>
             </div>
           </div>
         </div>
