@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import TurnstileWidget from "./TurnstileWidget";
 
 const Support = () => {
   useEffect(() => {
@@ -9,6 +10,66 @@ const Support = () => {
   }, []);
 
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
+  const ISSUES_PAGE_PATH = "/issues";
+
+  const turnstileBypassInDev = useMemo(() => {
+    return (
+      process.env.NODE_ENV !== "production" &&
+      process.env.NEXT_PUBLIC_TURNSTILE_DISABLE_IN_DEV === "true"
+    );
+  }, []);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState("none");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState(null); // { identifier }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    setSubmitError("");
+    setSubmitSuccess(null);
+
+    const trimmedTitle = title.trim();
+    const trimmedDescription = description.trim();
+    if (!trimmedTitle) return setSubmitError("Please enter a title.");
+    if (!trimmedDescription) return setSubmitError("Please enter a description.");
+
+    if (!turnstileBypassInDev && !turnstileToken) {
+      return setSubmitError("Please complete the verification to submit.");
+    }
+
+    try {
+      setIsSubmitting(true);
+      const res = await fetch("/api/linear/issues", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: trimmedTitle,
+          description: trimmedDescription,
+          priority,
+          turnstileToken: turnstileBypassInDev ? "dev-bypass" : turnstileToken,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || "Failed to submit bug report.");
+      }
+
+      setSubmitSuccess({ identifier: data?.identifier });
+      setTitle("");
+      setDescription("");
+      setPriority("none");
+      setTurnstileToken("");
+    } catch (err) {
+      setSubmitError(err?.message || "Failed to submit bug report.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="w-full my-10">
@@ -33,23 +94,113 @@ const Support = () => {
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mx-auto" />
         </header>
 
-        {/* Bug Report Form Embed */}
+        {/* Bug Report Form */}
         <div className="mx-auto max-w-4xl mb-10">
           <div className="relative group">
             {/* Glow effect */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
 
-            {/* Main card with iframe */}
-            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-2 md:p-4 overflow-hidden">
-              <iframe
-                src="https://animated-fine-273.notion.site/ebd/28df8761b6498137841fce83102c7139"
-                width="100%"
-                height="600"
-                frameBorder="0"
-                allowFullScreen
-                className="rounded-xl"
-                title="Bug Report Form"
-              />
+            {/* Main card with form */}
+            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8 overflow-hidden">
+              <form onSubmit={onSubmit} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-white/90 mb-2">
+                    Title <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    type="text"
+                    maxLength={120}
+                    placeholder="Short summary of the bug"
+                    className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/90 mb-2">
+                    Description <span className="text-red-400">*</span>
+                  </label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={6}
+                    maxLength={6000}
+                    placeholder="What happened? What did you expect? Steps to reproduce?"
+                    className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
+                    required
+                  />
+                  <p className="mt-2 text-xs text-white/40">
+                    This creates an issue in our internal tracker with the label{" "}
+                    <span className="text-white/70">AstroStats Web</span>.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-white/90 mb-2">
+                      Priority
+                    </label>
+                    <select
+                      value={priority}
+                      onChange={(e) => setPriority(e.target.value)}
+                      className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
+                    >
+                      <option value="none">No priority</option>
+                      <option value="urgent">Urgent</option>
+                      <option value="high">High</option>
+                      <option value="medium">Medium</option>
+                      <option value="low">Low</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col justify-end">
+                    {!turnstileBypassInDev ? (
+                      <TurnstileWidget onToken={setTurnstileToken} />
+                    ) : (
+                      <div className="rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white/60">
+                        Turnstile disabled in dev (feature flag).
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {submitError ? (
+                  <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                    {submitError}
+                  </div>
+                ) : null}
+
+                {submitSuccess?.identifier ? (
+                  <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                    Thanks — bug report submitted ({submitSuccess.identifier}).
+                    <a
+                      href={ISSUES_PAGE_PATH}
+                      className="ml-2 underline underline-offset-4 text-emerald-100 hover:text-white"
+                    >
+                      View public issues
+                    </a>
+                  </div>
+                ) : null}
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold hover:from-indigo-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-indigo-500/30 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit bug report"}
+                  </button>
+
+                  <a
+                    href={ISSUES_PAGE_PATH}
+                    className="text-sm text-white/60 hover:text-white underline underline-offset-4"
+                  >
+                    Browse public issues
+                  </a>
+                </div>
+              </form>
             </div>
           </div>
         </div>
