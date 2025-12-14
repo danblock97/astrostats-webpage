@@ -2,7 +2,7 @@ import {
   createIssueInLinear,
   getBacklogStateId,
   getLinearClient,
-  getOrCreateLabel,
+  resolveLabelIds,
   getTeamByKey,
   listIssuesByLabel,
 } from "@/lib/linear";
@@ -18,6 +18,16 @@ function normalizePriority(p) {
   return "none";
 }
 
+function getLabelsForType(baseLabel, type) {
+  const labels = [baseLabel];
+  if (type === "bug") {
+    labels.push("Bug");
+  } else if (type === "feature") {
+    labels.push("Feature");
+  }
+  return labels;
+}
+
 export async function POST(request) {
   try {
     const body = await request.json().catch(() => null);
@@ -27,6 +37,11 @@ export async function POST(request) {
     const description = String(body.description || "").trim();
     const priority = normalizePriority(body.priority);
     const turnstileToken = String(body.turnstileToken || "");
+    const type = String(body.type || "bug").toLowerCase(); // default to bug
+
+    if (!["bug", "feature"].includes(type)) {
+      return json(400, { error: "Invalid type. Must be 'bug' or 'feature'." });
+    }
 
     if (!title) return json(400, { error: "Title is required." });
     if (!description) return json(400, { error: "Description is required." });
@@ -38,19 +53,23 @@ export async function POST(request) {
 
     const client = getLinearClient();
     const teamKey = process.env.LINEAR_TEAM_KEY;
-    const labelName = process.env.LINEAR_LABEL_NAME;
+    const baseLabelName = process.env.LINEAR_LABEL_NAME;
 
     const team = await getTeamByKey(client, teamKey);
-    const label = await getOrCreateLabel(client, {
+    const labelNames = getLabelsForType(baseLabelName, type);
+
+    // Resolve all label IDs (create if missing)
+    const labelIds = await resolveLabelIds(client, {
       teamId: team.id,
-      labelName,
+      labelNames,
     });
+
     const backlogStateId = await getBacklogStateId(client, team.id);
 
     const issue = await createIssueInLinear(client, {
       teamId: team.id,
       stateId: backlogStateId,
-      labelId: label.id,
+      labelIds, // Pass array
       title,
       description,
       priority,
@@ -58,6 +77,7 @@ export async function POST(request) {
 
     return json(200, { id: issue.id, identifier: issue.identifier });
   } catch (err) {
+    console.error("Linear API Error:", err);
     return json(500, { error: err?.message || "Internal server error." });
   }
 }
@@ -66,6 +86,8 @@ export async function GET(request) {
   try {
     const url = new URL(request.url);
     const limitRaw = url.searchParams.get("limit");
+    const type = (url.searchParams.get("type") || "bug").toLowerCase();
+
     const limit = Math.min(
       Math.max(parseInt(limitRaw || "50", 10) || 50, 1),
       100
@@ -73,17 +95,20 @@ export async function GET(request) {
 
     const client = getLinearClient();
     const teamKey = process.env.LINEAR_TEAM_KEY;
-    const labelName = process.env.LINEAR_LABEL_NAME;
+    const baseLabelName = process.env.LINEAR_LABEL_NAME;
 
     const team = await getTeamByKey(client, teamKey);
-    const label = await getOrCreateLabel(client, {
+    const labelNames = getLabelsForType(baseLabelName, type);
+
+    // Resolve IDs for filtering
+    const labelIds = await resolveLabelIds(client, {
       teamId: team.id,
-      labelName,
+      labelNames,
     });
 
     const issues = await listIssuesByLabel(client, {
       teamId: team.id,
-      labelId: label.id,
+      labelIds, // Pass array
       first: limit,
     });
 
@@ -102,6 +127,7 @@ export async function GET(request) {
 
     return json(200, { issues: normalized });
   } catch (err) {
+    console.error("Linear API Error:", err);
     return json(500, { error: err?.message || "Internal server error." });
   }
 }

@@ -40,27 +40,45 @@ export async function getTeamByKey(client, teamKey) {
   return team;
 }
 
-export async function getOrCreateLabel(client, { teamId, labelName }) {
-  if (!labelName) throw new Error("Missing LINEAR_LABEL_NAME.");
+/**
+ * Resolves a list of label names to their IDs.
+ * Creates them if they don't exist.
+ */
+export async function resolveLabelIds(client, { teamId, labelNames = [] }) {
+  if (!labelNames.length) return [];
 
-  const labels = await client.issueLabels({
-    first: 1,
+  // 1. Fetch existing labels for this team
+  const existingLabelsNodes = await client.issueLabels({
+    first: 100, // naive max, usually enough
     filter: {
-      name: { eq: labelName },
       team: { id: { eq: teamId } },
+      name: { in: labelNames },
     },
   });
+  const existingLabels = existingLabelsNodes?.nodes || [];
 
-  const existing = labels?.nodes?.[0];
-  if (existing) return existing;
+  const resolvedIds = [];
 
-  const createdPayload = await client.createIssueLabel({
-    name: labelName,
-    teamId,
-  });
-  const created = await createdPayload.issueLabel;
-  if (!created) throw new Error("Failed to create Linear label.");
-  return created;
+  for (const name of labelNames) {
+    const match = existingLabels.find((l) => l.name === name);
+    if (match) {
+      resolvedIds.push(match.id);
+    } else {
+      // Create it
+      const createdPayload = await client.createIssueLabel({
+        name,
+        teamId,
+      });
+      const created = await createdPayload.issueLabel;
+      if (!created) {
+        console.warn(`Failed to create Linear label: ${name}`);
+        continue;
+      }
+      resolvedIds.push(created.id);
+    }
+  }
+
+  return resolvedIds;
 }
 
 export async function getBacklogStateId(client, teamId) {
@@ -80,14 +98,14 @@ export async function getBacklogStateId(client, teamId) {
 }
 
 export async function createIssueInLinear(client, input) {
-  const { teamId, stateId, labelId, title, description, priority } = input;
+  const { teamId, stateId, labelIds, title, description, priority } = input;
   const payload = await client.createIssue({
     teamId,
     stateId,
     title,
     description,
     priority: mapPriority(priority),
-    labelIds: [labelId],
+    labelIds: labelIds || [],
   });
 
   const issue = await payload.issue;
@@ -95,38 +113,32 @@ export async function createIssueInLinear(client, input) {
   return issue;
 }
 
-export async function listIssuesByLabel(client, { teamId, labelId, first = 50 }) {
-  const query = /* GraphQL */ `
-    query PublicIssues($first: Int, $filter: IssueFilter) {
-      issues(first: $first, filter: $filter) {
-        nodes {
-          id
-          identifier
-          title
-          description
-          priority
-          updatedAt
-          state {
-            id
-            name
-            type
-          }
-        }
-      }
-    }
-  `;
+export async function listIssuesByLabel(client, { teamId, labelIds, first = 50 }) {
+  // If no labels provided, return no issues (strict filtering)
+  if (!labelIds || labelIds.length === 0) {
+    return [];
+  }
 
-  const variables = {
-    first,
-    filter: {
-      team: { id: { eq: teamId } },
-      labels: { some: { id: { eq: labelId } } },
-    },
+  // Linear API "labels" filter uses logical OR by default if you pass an array.
+  // To get logical AND (must have ALL labels), we have to be trickier or filter client-side.
+  // However, the standard `filter` object allows `labels: { some: ... }` or `and: [...]`.
+  // Let's try constructing an `and` filter for labels.
+
+  const labelFilters = labelIds.map((id) => ({
+    labels: { some: { id: { eq: id } } },
+  }));
+
+  const filter = {
+    team: { id: { eq: teamId } },
+    and: labelFilters,
   };
 
-  const data = await client.client.request(query, variables);
-  const nodes = data?.issues?.nodes || [];
-  return nodes;
+  const issues = await client.issues({
+    first,
+    filter,
+  });
+
+  return issues?.nodes || [];
 }
 
 
