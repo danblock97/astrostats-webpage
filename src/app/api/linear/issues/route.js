@@ -38,9 +38,14 @@ export async function POST(request) {
     const priority = normalizePriority(body.priority);
     const turnstileToken = String(body.turnstileToken || "");
     const type = String(body.type || "bug").toLowerCase(); // default to bug
+    const project = String(body.project || "web").toLowerCase(); // default to web
 
     if (!["bug", "feature"].includes(type)) {
       return json(400, { error: "Invalid type. Must be 'bug' or 'feature'." });
+    }
+
+    if (!["web", "bot"].includes(project)) {
+      return json(400, { error: "Invalid project. Must be 'web' or 'bot'." });
     }
 
     if (!title) return json(400, { error: "Title is required." });
@@ -53,7 +58,13 @@ export async function POST(request) {
 
     const client = getLinearClient();
     const teamKey = process.env.LINEAR_TEAM_KEY;
-    const baseLabelName = process.env.LINEAR_LABEL_NAME;
+
+    // Choose base label based on project selection
+    // Fallback to Env var if needed, but per plan we use specific names
+    let baseLabelName = "AstroStats Web";
+    if (project === "bot") {
+      baseLabelName = "AstroStats Bot";
+    }
 
     const team = await getTeamByKey(client, teamKey);
     const labelNames = getLabelsForType(baseLabelName, type);

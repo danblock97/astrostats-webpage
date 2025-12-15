@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import NavLink from "./NavLink";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-import MenuOverlay from "./MenuOverlay";
+import { Bars3Icon } from "@heroicons/react/24/solid";
+import MobileSidebar from "./MobileSidebar";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const navLinks = [
@@ -72,21 +72,12 @@ const Navbar = () => {
           AstroStats
         </Link>
         <div className="mobile-menu block md:hidden">
-          {!navbarOpen ? (
-            <button
-              onClick={() => setNavbarOpen(true)}
-              className="flex items-center px-3 py-2 border rounded border-slate-200 text-slate-200 hover:text-white hover:border-white"
-            >
-              <Bars3Icon className="h-5 w-5" />
-            </button>
-          ) : (
-            <button
-              onClick={() => setNavbarOpen(false)}
-              className="flex items-center px-3 py-2 border rounded border-slate-200 text-slate-200 hover:text-white hover:border-white"
-            >
-              <XMarkIcon className="h-5 w-5" />
-            </button>
-          )}
+          <button
+            onClick={() => setNavbarOpen(true)}
+            className="flex items-center px-3 py-2 border rounded border-slate-200 text-slate-200 hover:text-white hover:border-white"
+          >
+            <Bars3Icon className="h-5 w-5" />
+          </button>
         </div>
         <div className="hidden items-center gap-6 md:flex">
           <div className="menu md:w-auto" id="navbar">
@@ -155,7 +146,11 @@ const Navbar = () => {
           )}
         </div>
       </div>
-      {navbarOpen ? <MenuOverlay links={navLinks} /> : null}
+      <MobileSidebar
+        isOpen={navbarOpen}
+        onClose={() => setNavbarOpen(false)}
+        links={navLinks}
+      />
     </nav>
   );
 };

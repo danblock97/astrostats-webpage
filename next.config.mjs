@@ -5,7 +5,7 @@ const nextConfig = {
   },
   // Enable standalone output for Docker
   output: 'standalone',
-  // Mark MongoDB as external to avoid bundling issues with Next.js 16
+  // Mark MongoDB as external to avoid bundling issues with Next.js
   serverExternalPackages: ['mongodb'],
 };
 

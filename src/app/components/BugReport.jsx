@@ -21,6 +21,7 @@ const BugReport = () => {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [project, setProject] = useState("web");
     const [priority, setPriority] = useState("none");
     const [turnstileToken, setTurnstileToken] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,6 +51,7 @@ const BugReport = () => {
                     title: trimmedTitle,
                     description: trimmedDescription,
                     priority,
+                    project,
                     turnstileToken: turnstileBypassInDev ? "dev-bypass" : turnstileToken,
                     type: "bug",
                 }),
@@ -63,6 +65,7 @@ const BugReport = () => {
             setSubmitSuccess({ identifier: data?.identifier });
             setTitle("");
             setDescription("");
+            setProject("web");
             setPriority("none");
             setTurnstileToken("");
         } catch (err) {
@@ -139,6 +142,20 @@ const BugReport = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-sm font-medium text-white/90 mb-2">
+                                            Project <span className="text-red-400">*</span>
+                                        </label>
+                                        <select
+                                            value={project}
+                                            onChange={(e) => setProject(e.target.value)}
+                                            className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/60"
+                                        >
+                                            <option value="web">AstroStats Web</option>
+                                            <option value="bot">AstroStats Bot</option>
+                                        </select>
+                                    </div>
+
                                     <div>
                                         <label className="block text-sm font-medium text-white/90 mb-2">
                                             Priority
