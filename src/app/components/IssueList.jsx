@@ -104,6 +104,7 @@ export default function IssueList({ type }) {
                                     <thead className="bg-black/30">
                                         <tr className="text-xs text-white/60">
                                             <th className="px-4 py-3 font-medium">ID</th>
+                                            <th className="px-4 py-3 font-medium">Project</th>
                                             <th className="px-4 py-3 font-medium">Title</th>
                                             <th className="px-4 py-3 font-medium">Status</th>
                                             <th className="px-4 py-3 font-medium">Priority</th>
@@ -119,6 +120,14 @@ export default function IssueList({ type }) {
                                             >
                                                 <td className="px-4 py-3 whitespace-nowrap font-mono text-xs text-white/70">
                                                     {issue.identifier}
+                                                </td>
+                                                <td className="px-4 py-3 whitespace-nowrap">
+                                                    <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium ${issue.project === "Bot"
+                                                            ? "border-purple-500/30 bg-purple-500/10 text-purple-200"
+                                                            : "border-blue-500/30 bg-blue-500/10 text-blue-200"
+                                                        }`}>
+                                                        {issue.project || "Web"}
+                                                    </span>
                                                 </td>
                                                 <td className="px-4 py-3 min-w-[260px]">
                                                     <div className="font-medium text-white">

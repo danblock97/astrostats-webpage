@@ -5,6 +5,7 @@ import {
   resolveLabelIds,
   getTeamByKey,
   listIssuesByLabel,
+  listIssuesMixedFilter,
 } from "@/lib/linear";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 
@@ -106,34 +107,54 @@ export async function GET(request) {
 
     const client = getLinearClient();
     const teamKey = process.env.LINEAR_TEAM_KEY;
-    const baseLabelName = process.env.LINEAR_LABEL_NAME;
+
+    // Hardcoded project labels we want to include
+    const projectLabelNames = ["AstroStats Web", "AstroStats Bot"];
+    // The type label (Bug or Feature)
+    const typeLabelName = type === "feature" ? "Feature" : "Bug";
 
     const team = await getTeamByKey(client, teamKey);
-    const labelNames = getLabelsForType(baseLabelName, type);
 
-    // Resolve IDs for filtering
-    const labelIds = await resolveLabelIds(client, {
+    // Resolve project label IDs
+    const projectLabelIds = await resolveLabelIds(client, {
       teamId: team.id,
-      labelNames,
+      labelNames: projectLabelNames,
     });
 
-    const issues = await listIssuesByLabel(client, {
+    // Resolve type label ID
+    const [typeLabelId] = await resolveLabelIds(client, {
       teamId: team.id,
-      labelIds, // Pass array
+      labelNames: [typeLabelName],
+    });
+
+    const issues = await listIssuesMixedFilter(client, {
+      teamId: team.id,
+      typeLabelId,
+      projectLabelIds,
       first: limit,
     });
 
-    const normalized = issues.map((i) => ({
-      id: i.id,
-      identifier: i.identifier,
-      title: i.title,
-      status: i.state?.name || "Unknown",
-      priority: i.priority ?? 0,
-      updatedAt: i.updatedAt,
-      descriptionPreview: String(i.description || "")
-        .replace(/\s+/g, " ")
-        .trim()
-        .slice(0, 220),
+    const normalized = await Promise.all(issues.map(async (i) => {
+      const labels = await i.labels().then(l => l.nodes);
+      const isWeb = labels.some(l => l.name === "AstroStats Web");
+      const isBot = labels.some(l => l.name === "AstroStats Bot");
+      let project = "Unknown";
+      if (isWeb) project = "Web";
+      if (isBot) project = "Bot";
+
+      return {
+        id: i.id,
+        identifier: i.identifier,
+        title: i.title,
+        status: i.state?.name || "Unknown",
+        priority: i.priority ?? 0,
+        updatedAt: i.updatedAt,
+        project,
+        descriptionPreview: String(i.description || "")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 220),
+      };
     }));
 
     return json(200, { issues: normalized });

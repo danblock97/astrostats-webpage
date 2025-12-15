@@ -142,3 +142,27 @@ export async function listIssuesByLabel(client, { teamId, labelIds, first = 50 }
 }
 
 
+export async function listIssuesMixedFilter(client, { teamId, typeLabelId, projectLabelIds, first = 50 }) {
+  if (!typeLabelId) return [];
+  if (!projectLabelIds || projectLabelIds.length === 0) return [];
+
+  // We want issues that have the Type label AND (ProjectLabel A OR ProjectLabel B ...).
+  const projectOrFilters = projectLabelIds.map((id) => ({
+    labels: { some: { id: { eq: id } } },
+  }));
+
+  const filter = {
+    team: { id: { eq: teamId } },
+    and: [
+      { labels: { some: { id: { eq: typeLabelId } } } },
+      { or: projectOrFilters },
+    ],
+  };
+
+  const issues = await client.issues({
+    first,
+    filter,
+  });
+
+  return issues?.nodes || [];
+}
