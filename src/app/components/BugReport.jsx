@@ -10,7 +10,7 @@ const BugReport = () => {
     }, []);
 
     const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
-    const ISSUES_PAGE_PATH = "#issues";
+    const ISSUES_PAGE_PATH = "/issues";
 
     const turnstileBypassInDev = useMemo(() => {
         return (

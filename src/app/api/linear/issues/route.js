@@ -142,14 +142,28 @@ export async function GET(request) {
       if (isWeb) project = "Web";
       if (isBot) project = "Bot";
 
+      const assignee = await i.assignee;
+      const state = await i.state;
+
       return {
         id: i.id,
         identifier: i.identifier,
         title: i.title,
-        status: i.state?.name || "Unknown",
+        status: state?.name || "Unknown",
+        state: {
+          id: state?.id,
+          name: state?.name,
+          color: state?.color,
+          type: state?.type,
+        },
         priority: i.priority ?? 0,
         updatedAt: i.updatedAt,
         project,
+        assignee: assignee ? {
+          id: assignee.id,
+          name: assignee.name,
+          avatarUrl: assignee.avatarUrl,
+        } : null,
         descriptionPreview: String(i.description || "")
           .replace(/\s+/g, " ")
           .trim()

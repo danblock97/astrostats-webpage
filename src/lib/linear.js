@@ -166,3 +166,9 @@ export async function listIssuesMixedFilter(client, { teamId, typeLabelId, proje
 
   return issues?.nodes || [];
 }
+
+export async function getWorkflowStates(client, teamId) {
+  const team = await client.team(teamId);
+  const statesConn = await team.states({ first: 50 });
+  return statesConn?.nodes || [];
+}

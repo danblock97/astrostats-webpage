@@ -9,14 +9,8 @@ import { useSession, signIn, signOut } from "next-auth/react";
 const navLinks = [
   { title: "Premium", path: "/pricing" },
   { title: "Invite", path: "https://discord.gg/BeszQxTn9D" },
-  {
-    title: "Support",
-    path: "#",
-    children: [
-      { title: "Bug Reporting", path: "/bug" },
-      { title: "Feature Requests", path: "/feature-request" },
-    ],
-  },
+  { title: "Support", path: "/support" },
+  { title: "Issues", path: "/issues" },
   { title: "Docs", path: "/commands" },
 ];
 

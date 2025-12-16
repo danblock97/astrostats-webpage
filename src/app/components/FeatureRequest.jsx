@@ -10,7 +10,7 @@ const FeatureRequest = () => {
   }, []);
 
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
-  const FEATURES_PAGE_PATH = "#issues";
+  const FEATURES_PAGE_PATH = "/issues";
 
   const turnstileBypassInDev = useMemo(() => {
     return (
