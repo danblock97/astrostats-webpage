@@ -138,6 +138,34 @@ const commandData = [
 		category: "system",
 		icon: "💎",
 	},
+	{
+		title: "Astronomy Picture",
+		usage: "/apod",
+		description: "Astronomy Picture of the Day from NASA",
+		category: "cosmos",
+		icon: "🌌",
+	},
+	{
+		title: "International Space Station",
+		usage: "/iss",
+		description: "Real-time location of the International Space Station",
+		category: "cosmos",
+		icon: "🛰️",
+	},
+	{
+		title: "People in Space",
+		usage: "/people",
+		description: "List of humans currently in space",
+		category: "cosmos",
+		icon: "👨‍🚀",
+	},
+	{
+		title: "Rocket Launch",
+		usage: "/launch",
+		description: "Information on the next upcoming rocket launch",
+		category: "cosmos",
+		icon: "🚀",
+	},
 ];
 
 const tab_data = [
