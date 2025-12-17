@@ -168,6 +168,7 @@ export async function GET(request) {
           .replace(/\s+/g, " ")
           .trim()
           .slice(0, 220),
+        description: i.description || "",
       };
     }));
 
