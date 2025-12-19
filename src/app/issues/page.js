@@ -6,10 +6,10 @@ export default function IssuesPage() {
     return (
         <main className="flex min-h-screen flex-col bg-[#121212]">
             <Navbar />
-            <div className="container mt-24 mx-auto px-4 py-4 min-h-screen">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-white mb-2">Public Issues</h1>
-                    <p className="text-gray-400">Track the development of AstroStats. View bugs and feature requests.</p>
+            <div className="w-full mt-24 px-6 py-4 min-h-screen">
+                <div className="mb-10 px-2">
+                    <h1 className="text-4xl font-extrabold text-white mb-2">Public Roadmap</h1>
+                    <p className="text-gray-400 text-lg">See what we're building, what's coming next, and the status of known issues.</p>
                 </div>
                 <KanbanBoard />
             </div>
