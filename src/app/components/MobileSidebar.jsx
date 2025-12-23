@@ -3,15 +3,32 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { XMarkIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const MobileSidebar = ({ isOpen, onClose, links }) => {
     // Local state to track expanded menus (like "Support")
     const [expandedMenus, setExpandedMenus] = useState({});
     const [mounted, setMounted] = useState(false);
+    const { data: session } = useSession();
+    const [isPremium, setIsPremium] = useState(false);
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                if (!session) return setIsPremium(false);
+                const res = await fetch("/api/me");
+                if (res.ok) {
+                    const data = await res.json();
+                    setIsPremium(Boolean(data.premium));
+                }
+            } catch { }
+        };
+        load();
+    }, [session]);
 
     const toggleMenu = (title) => {
         setExpandedMenus((prev) => ({
@@ -47,8 +64,8 @@ const MobileSidebar = ({ isOpen, onClose, links }) => {
                     </button>
                 </div>
 
-                <nav className="p-4 overflow-y-auto h-[calc(100%-4rem)]">
-                    <ul className="space-y-4">
+                <nav className="p-4 overflow-y-auto h-[calc(100%-4rem)] flex flex-col">
+                    <ul className="space-y-4 flex-1">
                         {links.map((link, index) => {
                             const isExpanded = expandedMenus[link.title];
 
@@ -116,6 +133,58 @@ const MobileSidebar = ({ isOpen, onClose, links }) => {
                             );
                         })}
                     </ul>
+
+                    {/* Authentication Section */}
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                        {!session ? (
+                            <button
+                                onClick={() => {
+                                    signIn("discord");
+                                    onClose();
+                                }}
+                                className="w-full rounded-lg bg-[#5865F2] px-4 py-3 text-sm font-semibold text-white hover:bg-[#4752C4] transition-colors"
+                            >
+                                Login with Discord
+                            </button>
+                        ) : (
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3 px-2 py-2">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img 
+                                        src={session.user?.image || "/images/astrostats.png"} 
+                                        alt="avatar" 
+                                        className="h-10 w-10 rounded-full" 
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-white text-sm font-medium truncate">
+                                            {session.user?.name}
+                                        </p>
+                                        {isPremium && (
+                                            <span className="inline-block mt-1 rounded-full bg-emerald-600/20 px-2 py-0.5 text-[10px] text-emerald-300">
+                                                Premium
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                                <Link
+                                    href="/account"
+                                    onClick={onClose}
+                                    className="block w-full rounded-lg bg-white/10 px-4 py-2.5 text-sm font-medium text-white hover:bg-white/20 transition-colors text-center"
+                                >
+                                    Account
+                                </Link>
+                                <button
+                                    onClick={() => {
+                                        signOut();
+                                        onClose();
+                                    }}
+                                    className="w-full rounded-lg bg-red-600/20 px-4 py-2.5 text-sm font-medium text-red-300 hover:bg-red-600/30 transition-colors"
+                                >
+                                    Sign Out
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </nav>
             </div>
         </>,
