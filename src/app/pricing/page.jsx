@@ -237,9 +237,6 @@ export default function PricingPage() {
 						<h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">
 							AstroStats Premium
 						</h1>
-						<p className="mx-auto mt-3 max-w-2xl text-white/90">
-							50% of all proceeds go directly to cancer research UK.
-						</p>
 						<div className="mt-6 inline-flex items-center gap-3 rounded-full bg-white/10 p-1 ring-1 ring-white/20 backdrop-blur">
 							<span
 								className={`rounded-full px-3 py-1 text-sm ${
