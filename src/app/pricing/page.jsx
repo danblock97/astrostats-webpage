@@ -50,6 +50,13 @@ const PRICES = {
 	vip: { monthly: 1000, yearly: 9600 }, // £10/mo or £96/yr → £8.00/mo effective
 };
 
+// Tier hierarchy for upgrade/downgrade logic (higher number = higher tier)
+const TIER_RANK = {
+	supporter: 1,
+	sponsor: 2,
+	vip: 3,
+};
+
 const FEATURE_CATEGORIES = {
 	WELCOME: "Welcome System",
 	PETS: "Pet Battles",
@@ -294,10 +301,17 @@ export default function PricingPage() {
 									  }/year`
 									: "Billed monthly";
 
-							const isCurrent =
-								me?.premium &&
-								me?.planTier === t.key &&
-								me?.planDuration === duration;
+							// Check if this is the user's current tier (regardless of duration)
+							const isCurrentTier = me?.premium && me?.planTier === t.key;
+							// Check if exact match (same tier AND same duration)
+							const isExactMatch = isCurrentTier && (me?.planDuration === duration || me?.planDuration === "gifted");
+							// Determine if this is an upgrade or downgrade based on tier hierarchy
+							const userTierRank = me?.planTier ? TIER_RANK[me.planTier] || 0 : 0;
+							const thisTierRank = TIER_RANK[t.key] || 0;
+							const isDowngrade = me?.premium && userTierRank > thisTierRank;
+							const isUpgrade = me?.premium && userTierRank < thisTierRank;
+							// For gifted users, show current plan on their tier
+							const isCurrent = isCurrentTier;
 
 							return (
 								<div
@@ -338,9 +352,11 @@ export default function PricingPage() {
 												? "bg-white/10 cursor-not-allowed"
 												: isCurrent
 												? "bg-white/10 cursor-not-allowed"
+												: isDowngrade
+												? "bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500"
 												: "bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500"
 										}`}
-										onClick={() => t.key !== "free" && startCheckout(t.key)}
+										onClick={() => t.key !== "free" && !isCurrent && startCheckout(t.key)}
 										disabled={
 											t.key === "free" ||
 											COMING_SOON ||
@@ -355,14 +371,16 @@ export default function PricingPage() {
 											"Current Plan"
 										) : isCurrent ? (
 											<span className="inline-flex items-center gap-2 text-emerald-300">
-												<CheckCircleIcon className="h-5 w-5" /> Current plan
+												<CheckCircleIcon className="h-5 w-5" /> Current Plan
 											</span>
 										) : COMING_SOON ? (
 											"Coming soon"
-										) : session ? (
-											"Upgrade"
-										) : (
+										) : !session ? (
 											"Login to purchase"
+										) : isDowngrade ? (
+											"Downgrade"
+										) : (
+											"Upgrade"
 										)}
 									</button>
 								</div>

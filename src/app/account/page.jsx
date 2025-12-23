@@ -52,8 +52,16 @@ export default function AccountPage() {
     setLoading(true);
     try {
       const res = await fetch("/api/stripe/portal", { method: "POST" });
-      if (!res.ok) throw new Error("Failed to create portal session");
       const data = await res.json();
+      if (!res.ok) {
+        // Handle specific error for no Stripe customer
+        if (data?.error === "no_stripe_customer") {
+          alert(data.message || "No billing account found. Your premium was granted manually.");
+        } else {
+          alert(data?.message || "Failed to create portal session");
+        }
+        return;
+      }
       window.location.href = data.url;
     } catch (e) {
       alert(e.message || "Portal failed");
@@ -118,10 +126,12 @@ export default function AccountPage() {
             </div>
             <div className="flex items-center gap-3">
               <a href="/pricing" className="rounded-lg bg-white/20 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/30">Change plan</a>
-              <button onClick={openPortal} disabled={loading} className="inline-flex items-center gap-2 rounded-lg bg-black/30 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/30 transition hover:bg-black/40 disabled:opacity-50">
-                {loading ? "Opening…" : "Manage billing"}
-                <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-              </button>
+              {me?.hasStripeCustomer !== false && (
+                <button onClick={openPortal} disabled={loading} className="inline-flex items-center gap-2 rounded-lg bg-black/30 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/30 transition hover:bg-black/40 disabled:opacity-50">
+                  {loading ? "Opening…" : "Manage billing"}
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -157,7 +167,7 @@ export default function AccountPage() {
                   </div>
                   <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                     <div className="text-xs text-gray-400">Billing period</div>
-                    <div className="mt-1 font-medium capitalize">{me?.premium ? (me?.planDuration || "monthly") : "—"}</div>
+                    <div className="mt-1 font-medium capitalize">{me?.premium ? (me?.planDuration === "gifted" ? "Complimentary" : (me?.planDuration || "monthly")) : "—"}</div>
                   </div>
                   <div className="rounded-xl border border-white/10 bg-white/5 p-4">
                     <div className="text-xs text-gray-400">Tier</div>
@@ -171,7 +181,7 @@ export default function AccountPage() {
               </div>
 
               {/* Billing + invoices */}
-              <BillingBlock onOpenPortal={openPortal} loading={loading} />
+              <BillingBlock onOpenPortal={openPortal} loading={loading} hasStripeCustomer={me?.hasStripeCustomer} planDuration={me?.planDuration} />
             </div>
 
             {/* Perks */}
@@ -223,8 +233,10 @@ export default function AccountPage() {
 }
 
 
-function BillingBlock({ onOpenPortal, loading }) {
+function BillingBlock({ onOpenPortal, loading, hasStripeCustomer, planDuration }) {
   const [invoices, setInvoices] = useState([]);
+  const isGiftedPremium = planDuration === "gifted";
+
   useEffect(() => {
     const load = async () => {
       try {
@@ -235,13 +247,33 @@ function BillingBlock({ onOpenPortal, loading }) {
         }
       } catch {}
     };
-    load();
-  }, []);
+    // Only fetch invoices if user has a Stripe customer
+    if (hasStripeCustomer !== false) {
+      load();
+    }
+  }, [hasStripeCustomer]);
+
+  // Show special message for gifted/manual premium users
+  if (hasStripeCustomer === false || isGiftedPremium) {
+    return (
+      <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-white/[0.02] p-10">
+        <h2 className="text-xl font-semibold">Billing & invoices</h2>
+        <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+          <p className="text-sm text-amber-200">
+            <span className="font-semibold">Complimentary Premium</span> — Your premium access was granted manually and has no associated billing.
+          </p>
+          <p className="mt-2 text-xs text-amber-200/70">
+            If you&apos;d like to switch to a paid subscription, visit the <a href="/pricing" className="underline hover:text-amber-100">pricing page</a>.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-            <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-white/[0.02] p-10">
+    <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-white/[0.02] p-10">
       <h2 className="text-xl font-semibold">Billing & invoices</h2>
-              <p className="mt-2 max-w-2xl text-gray-300">Update payment methods, download invoices, or cancel in the billing portal.</p>
+      <p className="mt-2 max-w-2xl text-gray-300">Update payment methods, download invoices, or cancel in the billing portal.</p>
       <div className="mt-4">
         <button onClick={onOpenPortal} disabled={loading} className="inline-flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 transition hover:bg-white/20 disabled:opacity-50">
           {loading ? "Opening portal…" : "Open billing portal"}

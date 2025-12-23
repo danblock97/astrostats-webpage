@@ -7,13 +7,14 @@ const authOptions = {
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      authorization: { url: "https://discord.com/api/oauth2/authorize", params: { scope: "identify" } },
+      authorization: { url: "https://discord.com/api/oauth2/authorize", params: { scope: "identify email" } },
       token: "https://discord.com/api/oauth2/token",
       userinfo: "https://discord.com/api/users/@me",
       profile(profile) {
         return {
           id: profile.id,
           name: profile.username,
+          email: profile.email,
           image: profile.avatar
             ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
             : undefined,
@@ -21,18 +22,6 @@ const authOptions = {
       },
     }),
   ],
-  debug: true,
-  logger: {
-    error(code, metadata) {
-      console.error("[NextAuth][error]", code, metadata);
-    },
-    warn(code) {
-      console.warn("[NextAuth][warn]", code);
-    },
-    debug(code, metadata) {
-      console.log("[NextAuth][debug]", code, metadata);
-    },
-  },
   session: { strategy: "jwt" },
   pages: { signIn: "/account" },
   callbacks: {
@@ -59,6 +48,7 @@ const authOptions = {
                 discordId: profile.id,
                 username: profile.username,
                 avatar: profile.avatar,
+                email: profile.email,
                 updatedAt: new Date(),
               },
             },

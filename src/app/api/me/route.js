@@ -39,23 +39,47 @@ export async function GET(request) {
     },
   };
 
+  const validTiers = ["supporter", "sponsor", "vip"];
   let planDuration = "free";
   let planTier = null;
+  let hasStripeSubscription = false;
+
   if (user?.plan && user.premium) {
     for (const [tier, durations] of Object.entries(priceMatrix)) {
       if (durations.monthly && user.plan === durations.monthly) {
         planDuration = "monthly";
         planTier = tier;
+        hasStripeSubscription = true;
         break;
       }
       if (durations.yearly && user.plan === durations.yearly) {
         planDuration = "yearly";
         planTier = tier;
+        hasStripeSubscription = true;
         break;
       }
     }
-    if (!planTier) planDuration = "pro";
+    // If plan didn't match Stripe prices but user has premium, use role as fallback for planTier
+    if (!planTier && user.premium) {
+      const normalizedRole = (user.role || "").toLowerCase();
+      if (validTiers.includes(normalizedRole)) {
+        planTier = normalizedRole;
+        planDuration = "gifted"; // Indicate this is a manually-granted subscription
+      } else {
+        planDuration = "pro";
+      }
+    }
+  } else if (user.premium && !user.plan) {
+    // User has premium but no plan (manually granted)
+    const normalizedRole = (user.role || "").toLowerCase();
+    if (validTiers.includes(normalizedRole)) {
+      planTier = normalizedRole;
+      planDuration = "gifted";
+    }
   }
+
+  // Check if user has a Stripe customer ID (for billing portal access)
+  const hasStripeCustomer = Boolean(user.stripeCustomerId);
 
   return NextResponse.json({
     discordId: user.discordId,
@@ -66,6 +90,8 @@ export async function GET(request) {
     planTier,
     role: user.role || planTier || null,
     currentPeriodEnd: user.currentPeriodEnd || null,
+    hasStripeSubscription,
+    hasStripeCustomer,
   });
 }
 

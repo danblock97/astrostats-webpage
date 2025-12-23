@@ -73,14 +73,37 @@ export async function POST(request) {
   const user = await users.findOne({ discordId: token.discordId });
   let customerId = user?.stripeCustomerId;
   if (!customerId) {
-    const customer = await stripe.customers.create({
+    // Create new Stripe customer with email and name if available
+    const customerData = {
       metadata: { discordId: token.discordId },
-    });
+    };
+    if (user?.email) customerData.email = user.email;
+    if (user?.username) customerData.name = user.username;
+    
+    const customer = await stripe.customers.create(customerData);
     customerId = customer.id;
     await users.updateOne(
       { discordId: token.discordId },
       { $set: { stripeCustomerId: customerId, updatedAt: new Date() } }
     );
+  } else {
+    // Update existing customer if email/name is missing in Stripe
+    try {
+      const existingCustomer = await stripe.customers.retrieve(customerId);
+      const needsUpdate = 
+        (!existingCustomer.email && user?.email) || 
+        (!existingCustomer.name && user?.username);
+      
+      if (needsUpdate) {
+        const updateData = {};
+        if (!existingCustomer.email && user?.email) updateData.email = user.email;
+        if (!existingCustomer.name && user?.username) updateData.name = user.username;
+        await stripe.customers.update(customerId, updateData);
+      }
+    } catch (err) {
+      console.error("Failed to update existing Stripe customer:", err);
+      // Continue anyway - not critical
+    }
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL;

@@ -10,12 +10,13 @@ export const authOptions = {
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
       authorization: {
-        params: { scope: "identify" },
+        params: { scope: "identify email" },
       },
       profile(profile) {
         return {
           id: profile.id,
           name: profile.username,
+          email: profile.email,
           image: profile.avatar
             ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
             : undefined,
@@ -58,6 +59,7 @@ export const authOptions = {
               discordId: profile.id,
               username: profile.username,
               avatar: profile.avatar,
+              email: profile.email,
               updatedAt: new Date(),
             },
           },
