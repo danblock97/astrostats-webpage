@@ -181,7 +181,7 @@ export default function AccountPage() {
               </div>
 
               {/* Billing + invoices */}
-              <BillingBlock onOpenPortal={openPortal} loading={loading} hasStripeCustomer={me?.hasStripeCustomer} planDuration={me?.planDuration} />
+              <BillingBlock onOpenPortal={openPortal} loading={loading} hasStripeCustomer={me?.hasStripeCustomer} planDuration={me?.planDuration} premium={me?.premium} />
             </div>
 
             {/* Perks */}
@@ -233,7 +233,7 @@ export default function AccountPage() {
 }
 
 
-function BillingBlock({ onOpenPortal, loading, hasStripeCustomer, planDuration }) {
+function BillingBlock({ onOpenPortal, loading, hasStripeCustomer, planDuration, premium }) {
   const [invoices, setInvoices] = useState([]);
   const isGiftedPremium = planDuration === "gifted";
 
@@ -253,8 +253,9 @@ function BillingBlock({ onOpenPortal, loading, hasStripeCustomer, planDuration }
     }
   }, [hasStripeCustomer]);
 
-  // Show special message for gifted/manual premium users
-  if (hasStripeCustomer === false || isGiftedPremium) {
+  // Show special message only for premium users who have no Stripe customer or have gifted premium
+  // Free users with Stripe customers should see normal billing section
+  if (premium && (hasStripeCustomer === false || isGiftedPremium)) {
     return (
       <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-white/[0.02] p-10">
         <h2 className="text-xl font-semibold">Billing & invoices</h2>
