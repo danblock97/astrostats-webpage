@@ -65,9 +65,10 @@ export async function POST(request) {
   const role = deriveTierFromPrice(plan);
 
   await users.updateOne(
-    { discordId: session.user.discordId },
+    { discordId: token.discordId },
     {
       $set: {
+        stripeCustomerId: user.stripeCustomerId,
         subscriptionId: active.id,
         status: active.status,
         currentPeriodEnd: active.current_period_end || undefined,
