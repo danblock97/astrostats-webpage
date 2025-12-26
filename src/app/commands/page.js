@@ -2,6 +2,23 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import Commands from "../components/Commands";
 
+export const metadata = {
+	title: "Commands - AstroStats Discord Bot",
+	description:
+		"Discover all the powerful commands AstroStats has to offer. Get daily horoscopes, track Apex Legends stats, Fortnite stats, League of Legends stats, and more with simple Discord commands.",
+	openGraph: {
+		title: "Commands - AstroStats Discord Bot",
+		description:
+			"Discover all the powerful commands AstroStats has to offer. Get daily horoscopes, track gaming stats, and more.",
+		url: "https://astrostats.info/commands",
+	},
+	twitter: {
+		title: "Commands - AstroStats Discord Bot",
+		description:
+			"Discover all the powerful commands AstroStats has to offer. Get daily horoscopes, track gaming stats, and more.",
+	},
+};
+
 export default function CommandsPage() {
   return (
     <main className="flex min-h-screen flex-col bg-[#121212]">

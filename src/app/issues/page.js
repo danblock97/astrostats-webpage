@@ -2,6 +2,23 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import KanbanBoard from "../components/KanbanBoard";
 
+export const metadata = {
+	title: "Public Roadmap - AstroStats Development Status",
+	description:
+		"See what we're building, what's coming next, and the status of known issues. Track AstroStats development progress and upcoming features.",
+	openGraph: {
+		title: "Public Roadmap - AstroStats Development Status",
+		description:
+			"See what we're building, what's coming next, and the status of known issues. Track AstroStats development progress.",
+		url: "https://astrostats.info/issues",
+	},
+	twitter: {
+		title: "Public Roadmap - AstroStats Development Status",
+		description:
+			"See what we're building, what's coming next, and the status of known issues. Track AstroStats development progress.",
+	},
+};
+
 export default function IssuesPage() {
     return (
         <main className="flex min-h-screen flex-col bg-[#121212]">

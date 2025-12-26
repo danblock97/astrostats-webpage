@@ -1,5 +1,5 @@
-import Navbar from "@/app/components/Navbar";
-import PrivacyPolicy from "@/app/components/PrivacyPolicy";
+import Navbar from "../components/Navbar";
+import PrivacyPolicy from "../components/PrivacyPolicy";
 
 export default function PrivacyPolicyPage() {
 	return (

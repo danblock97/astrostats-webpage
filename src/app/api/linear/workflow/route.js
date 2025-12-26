@@ -1,5 +1,5 @@
 
-import { getLinearClient, getTeamByKey, getWorkflowStates } from "@/lib/linear";
+import { getLinearClient, getTeamByKey, getWorkflowStates } from "../../../../lib/linear";
 
 function json(status, body) {
     return Response.json(body, { status });

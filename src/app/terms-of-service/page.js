@@ -1,5 +1,5 @@
-import Navbar from "@/app/components/Navbar";
-import TermsOfService from "@/app/components/TermsOfService";
+import Navbar from "../components/Navbar";
+import TermsOfService from "../components/TermsOfService";
 
 export default function TermsOfServicePage() {
 	return (

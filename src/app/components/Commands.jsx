@@ -284,6 +284,13 @@ const Commands = () => {
 		"/images/HoroscopeCommand.png",
 		"/images/LeagueCommand.png",
 	];
+	const imageAltTexts = [
+		"Apex Legends stats command example showing player statistics",
+		"League of Legends champion mastery command example",
+		"Fortnite stats command example showing player performance",
+		"Daily horoscope command example for zodiac signs",
+		"League of Legends stats command example showing match details",
+	];
 	const [currentImage, setCurrentImage] = useState(0);
 
 	useEffect(() => {
@@ -307,7 +314,7 @@ const Commands = () => {
 						<div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40 z-10 pointer-events-none"></div>
 						<Image
 							src={imageList[currentImage]}
-							alt="Command preview"
+							alt={imageAltTexts[currentImage]}
 							fill
 							className="object-contain"
 							priority

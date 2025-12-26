@@ -6,8 +6,8 @@ import {
   getTeamByKey,
   listIssuesByLabel,
   listIssuesMixedFilter,
-} from "@/lib/linear";
-import { verifyTurnstileToken } from "@/lib/turnstile";
+} from "../../../../lib/linear";
+import { verifyTurnstileToken } from "../../../../lib/turnstile";
 
 function json(status, body) {
   return Response.json(body, { status });

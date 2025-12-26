@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
+
 function Feature({ children, highlight }) {
 	// Check if the text contains placeholders to adjust styling
 	const hasPlaceholders =
