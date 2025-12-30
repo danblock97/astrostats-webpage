@@ -3,7 +3,6 @@ import "./globals.css";
 import Footer from "./components/Footer";
 import Providers from "./components/Providers";
 import Navbar from "./components/Navbar";
-import SnowfallWrapper from "./components/SnowfallWrapper";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -154,7 +153,6 @@ export default function RootLayout({ children }) {
 				/>
 			</head>
             <body className={inter.className}>
-                <SnowfallWrapper />
                 <Providers>
                     <Navbar />
                     {children}
