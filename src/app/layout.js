@@ -3,8 +3,10 @@ import "./globals.css";
 import Footer from "./components/Footer";
 import Providers from "./components/Providers";
 import Navbar from "./components/Navbar";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import DynamicBanner from "./components/DynamicBanner";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getActiveBanner } from "../lib/banners";
 
 const inter = Inter({ 
 	subsets: ["latin"],
@@ -139,7 +141,8 @@ const jsonLd = {
 	],
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+	const activeBanner = await getActiveBanner();
 	return (
 		<html lang="en">
 			<head>
@@ -154,6 +157,7 @@ export default function RootLayout({ children }) {
 			</head>
             <body className={inter.className}>
                 <Providers>
+                    <DynamicBanner banner={activeBanner} />
                     <Navbar />
                     {children}
                     <Footer />

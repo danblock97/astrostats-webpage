@@ -57,7 +57,10 @@ const Navbar = () => {
   }
 
   return (
-    <nav suppressHydrationWarning className="fixed mx-auto top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#121212]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121212]/70">
+    <nav
+      suppressHydrationWarning
+      className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#121212]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121212]/70"
+    >
       <div className="flex container h-16 items-center justify-between mx-auto px-4">
         <Link
           href="/"
