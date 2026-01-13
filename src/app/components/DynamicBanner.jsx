@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 const TYPE_CONFIG = {
   feature: {
@@ -25,9 +25,35 @@ const TYPE_CONFIG = {
   },
 };
 
-export default function DynamicBanner({ banner }) {
+export default function DynamicBanner() {
+  const [banner, setBanner] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const handleClose = useCallback(() => setIsOpen(false), []);
+
+  useEffect(() => {
+    async function fetchBanner() {
+      try {
+        const response = await fetch("/api/banner", {
+          cache: "no-store",
+        });
+        const data = await response.json();
+        setBanner(data.banner);
+      } catch (error) {
+        console.error("Error fetching banner:", error);
+        setBanner(null);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchBanner();
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
 
   if (!banner || !isOpen) {
     return null;
