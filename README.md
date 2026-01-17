@@ -42,7 +42,7 @@ Track your performance across multiple popular games:
 
 Adding AstroStats to your Discord server is simple! Click the "Invite AstroStats!" button on our website or use the direct invitation link below:
 
-[Add AstroStats to Your Server](https://discord.com/oauth2/authorize?client_id=1088929834748616785&permissions=2147747840&scope=bot)
+[Add AstroStats to Your Server](https://discord.com/oauth2/authorize?client_id=1088929834748616785&permissions=378944&integration_type=0&scope=bot+applications.commands)
 
 ## Support
 
