@@ -10,7 +10,6 @@ const navLinks = [
   { title: "Premium", path: "/pricing" },
   { title: "Invite", path: "https://discord.gg/BeszQxTn9D" },
   { title: "Support", path: "/support" },
-  { title: "Issues", path: "/issues" },
   { title: "Docs", path: "/commands" },
 ];
 
@@ -44,7 +43,7 @@ const Navbar = () => {
           const data = await res.json();
           setIsPremium(Boolean(data.premium));
         }
-      } catch { }
+      } catch {}
     };
     load();
   }, [session]);
@@ -62,10 +61,7 @@ const Navbar = () => {
       className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#121212]/95 backdrop-blur supports-[backdrop-filter]:bg-[#121212]/70"
     >
       <div className="flex container h-16 items-center justify-between mx-auto px-4">
-        <Link
-          href="/"
-          className="text-xl md:text-3xl text-white font-semibold"
-        >
+        <Link href="/" className="text-xl md:text-3xl text-white font-semibold">
           AstroStats
         </Link>
         <div className="mobile-menu block md:hidden">
@@ -85,8 +81,18 @@ const Navbar = () => {
                     <>
                       <button className="block py-2 pl-3 pr-4 text-[#adb7be] text-sm md:text-sm rounded md:p-0 hover:text-white flex items-center gap-1">
                         {link.title}
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </button>
                       <div className="absolute left-0 top-full hidden group-hover:block hover:block pt-2 w-48 z-50">
@@ -104,7 +110,12 @@ const Navbar = () => {
                       </div>
                     </>
                   ) : link.path.startsWith("http") ? (
-                    <a href={link.path} target="_blank" rel="noreferrer" className="block py-2 pl-3 pr-4 text-[#adb7be] text-sm md:text-sm rounded md:p-0 hover:text-white">
+                    <a
+                      href={link.path}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block py-2 pl-3 pr-4 text-[#adb7be] text-sm md:text-sm rounded md:p-0 hover:text-white"
+                    >
                       {link.title}
                     </a>
                   ) : (
@@ -128,15 +139,31 @@ const Navbar = () => {
                 className="flex items-center gap-2 rounded-full px-1 py-1"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={session.user?.image || "/images/astrostats.png"} alt="avatar" className="h-8 w-8 rounded-full" />
+                <img
+                  src={session.user?.image || "/images/astrostats.png"}
+                  alt="avatar"
+                  className="h-8 w-8 rounded-full"
+                />
                 {isPremium && (
-                  <span className="ml-1 rounded-full bg-emerald-600/20 px-2 py-0.5 text-[10px] text-emerald-300">Premium</span>
+                  <span className="ml-1 rounded-full bg-emerald-600/20 px-2 py-0.5 text-[10px] text-emerald-300">
+                    Premium
+                  </span>
                 )}
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 top-full z-20 mt-2 w-44 overflow-hidden rounded-lg border border-white/10 bg-[#0b0d13] p-1 text-sm shadow-xl">
-                  <Link href="/account" className="block rounded px-3 py-2 text-white hover:bg-white/10">Account</Link>
-                  <button onClick={() => signOut()} className="block w-full rounded px-3 py-2 text-left text-white hover:bg-white/10">Sign out</button>
+                  <Link
+                    href="/account"
+                    className="block rounded px-3 py-2 text-white hover:bg-white/10"
+                  >
+                    Account
+                  </Link>
+                  <button
+                    onClick={() => signOut()}
+                    className="block w-full rounded px-3 py-2 text-left text-white hover:bg-white/10"
+                  >
+                    Sign out
+                  </button>
                 </div>
               )}
             </div>
