@@ -10,8 +10,10 @@ const Support = () => {
 
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
   const SUPPORT_EMAIL = "support@astrostats.info";
-  const NOTION_FORM_URL =
-    "https://abstracted-olivine-3e4.notion.site/2f56580a253280329171e1732830f102?pvs=105";
+  const BUG_REPORT_FORM_URL =
+    "https://danblock97.atlassian.net/jira/software/c/form/3d497ad7-b5f4-4261-bb6d-6626c55dde01?atlOrigin=eyJpIjoiMTU5NGExNGQ5MmIzNDg3YmEzODA5ZTE5MWE3MmQ2OGQiLCJwIjoiaiJ9";
+  const FEATURE_REQUEST_FORM_URL =
+    "https://danblock97.atlassian.net/jira/software/c/form/82892b1b-3389-4553-bb7f-5c615952cec8?atlOrigin=eyJpIjoiZGM3NGM3ZGY1ZDI2NDBhYmIyMjViOWI5MDQyNmM2MmMiLCJwIjoiaiJ9";
 
   return (
     <div className="w-full my-10">
@@ -107,33 +109,56 @@ const Support = () => {
                 </svg>
               </div>
               <h2 className="text-2xl font-bold text-white mb-3">
-                Feedback Form
+                Feedback Forms
               </h2>
               <p className="text-[#adb7be] mb-6 flex-grow">
-                Report bugs, request features, or share your feedback. Help us
-                make AstroStats better for everyone.
+                Report bugs or request features. Help us make AstroStats better
+                for everyone.
               </p>
-              <a
-                href={NOTION_FORM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+              <div className="flex flex-col gap-3">
+                <a
+                  href={BUG_REPORT_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                  />
-                </svg>
-                Open Feedback Form
-              </a>
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 9v3m0 4h.01M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Report a Bug
+                </a>
+                <a
+                  href={FEATURE_REQUEST_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                  Request a Feature
+                </a>
+              </div>
             </div>
           </div>
         </div>
