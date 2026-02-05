@@ -11,10 +11,8 @@ const Support = () => {
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
   const SUPPORT_EMAIL = "support@astrostats.info";
   const STATUS_PAGE_URL = "https://astrostats.statuspage.io";
-  const BUG_REPORT_FORM_URL =
-    "https://danblock97.atlassian.net/jira/software/c/form/3d497ad7-b5f4-4261-bb6d-6626c55dde01?atlOrigin=eyJpIjoiMTU5NGExNGQ5MmIzNDg3YmEzODA5ZTE5MWE3MmQ2OGQiLCJwIjoiaiJ9";
-  const FEATURE_REQUEST_FORM_URL =
-    "https://danblock97.atlassian.net/jira/software/c/form/82892b1b-3389-4553-bb7f-5c615952cec8?atlOrigin=eyJpIjoiZGM3NGM3ZGY1ZDI2NDBhYmIyMjViOWI5MDQyNmM2MmMiLCJwIjoiaiJ9";
+  const SUPPORT_FORM_URL =
+    "https://silver-bakery-f7c.notion.site/2fe00ca00f0e811ca57cebc19fd6df2f?pvs=105";
 
   return (
     <div className="w-full my-10">
@@ -131,56 +129,33 @@ const Support = () => {
                 </svg>
               </div>
               <h2 className="text-2xl font-bold text-white mb-3">
-                Feedback Forms
+                Feedback Form
               </h2>
               <p className="text-[#adb7be] mb-6 flex-grow">
                 Report bugs or request features. Help us make AstroStats better
                 for everyone.
               </p>
-              <div className="flex flex-col gap-3">
-                <a
-                  href={BUG_REPORT_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
+              <a
+                href={SUPPORT_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 9v3m0 4h.01M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  Report a Bug
-                </a>
-                <a
-                  href={FEATURE_REQUEST_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  Request a Feature
-                </a>
-              </div>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+                Open Support Form
+              </a>
             </div>
           </div>
         </div>
