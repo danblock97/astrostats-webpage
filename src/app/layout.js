@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Footer from "./components/Footer";
 import Providers from "./components/Providers";
@@ -162,6 +163,10 @@ export default async function RootLayout({ children }) {
                 </Providers>
                 <Analytics />
                 <SpeedInsights />
+                <Script
+                    src="https://astrostats.statuspage.io/embed/script.js"
+                    strategy="afterInteractive"
+                />
             </body>
 		</html>
 	);

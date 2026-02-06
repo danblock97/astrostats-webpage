@@ -60,6 +60,33 @@ const commandData = [
 		tier: "All Tiers",
 	},
 	{
+		title: "Statuspage Enable",
+		usage: "/statuspage enable <channel>",
+		description: "Enable AstroStats status updates in a channel.",
+		category: "system",
+		icon: "📈",
+		tier: "All Tiers",
+		permission: "Manage Server",
+	},
+	{
+		title: "Statuspage Disable",
+		usage: "/statuspage disable",
+		description: "Disable AstroStats status updates.",
+		category: "system",
+		icon: "🛑",
+		tier: "All Tiers",
+		permission: "Manage Server",
+	},
+	{
+		title: "Statuspage Test",
+		usage: "/statuspage test <channel>",
+		description: "Send a sample status update embed.",
+		category: "system",
+		icon: "🧪",
+		tier: "All Tiers",
+		permission: "Manage Server",
+	},
+	{
 		title: "Squib Games",
 		usage: "/squibgames",
 		description: "Take part in your very own Server Squid Games!",
@@ -187,23 +214,30 @@ const tab_data = [
 								<h3 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent">
 									{command.title}
 								</h3>
-								{command.tier && (
-									<span
-										className={`text-xs px-2 py-0.5 rounded-full ${
-											command.tier === "Free"
-												? "bg-gray-700/50 text-gray-300"
-												: command.tier === "Supporter+"
-												? "bg-sky-900/50 text-sky-300"
-												: command.tier === "Sponsor+"
-												? "bg-fuchsia-900/50 text-fuchsia-300"
-												: command.tier === "VIP+"
-												? "bg-amber-900/50 text-amber-300"
-												: "bg-indigo-900/50 text-indigo-300"
-										}`}
-									>
-										{command.tier}
-									</span>
-								)}
+								<div className="mt-1 flex flex-wrap gap-2">
+									{command.tier && (
+										<span
+											className={`text-xs px-2 py-0.5 rounded-full ${
+												command.tier === "Free"
+													? "bg-gray-700/50 text-gray-300"
+													: command.tier === "Supporter+"
+													? "bg-sky-900/50 text-sky-300"
+													: command.tier === "Sponsor+"
+													? "bg-fuchsia-900/50 text-fuchsia-300"
+													: command.tier === "VIP+"
+													? "bg-amber-900/50 text-amber-300"
+													: "bg-indigo-900/50 text-indigo-300"
+											}`}
+										>
+											{command.tier}
+										</span>
+									)}
+									{command.permission && (
+										<span className="text-xs px-2 py-0.5 rounded-full bg-rose-900/50 text-rose-300 border border-rose-500/30">
+											{command.permission}
+										</span>
+									)}
+								</div>
 							</div>
 						</div>
 						<div className="pl-2 border-l-2 border-purple-500/50 ml-5">
