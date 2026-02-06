@@ -116,6 +116,13 @@ const commandData = [
 		icon: "🎮",
 	},
 	{
+		title: "Marvel Rivals",
+		usage: "/marvelrivals <name> <season>",
+		description: "Check your Marvel Rivals stats for a season",
+		category: "gaming",
+		icon: "🦸",
+	},
+	{
 		title: "Fortnite",
 		usage: "/fortnite 'time' 'name'",
 		description: "Check your Fortnite Stats",
