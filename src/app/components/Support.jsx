@@ -10,7 +10,6 @@ const Support = () => {
 
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
   const SUPPORT_EMAIL = "support@astrostats.info";
-  const STATUS_PAGE_URL = "https://astrostats.statuspage.io";
   const SUPPORT_FORM_URL =
     "https://silver-bakery-f7c.notion.site/2fe00ca00f0e811ca57cebc19fd6df2f?pvs=105";
 
@@ -35,27 +34,6 @@ const Support = () => {
             Need help with AstroStats? We're here for you. Choose the option
             that works best.
           </p>
-          <a
-            href={STATUS_PAGE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-300 hover:text-sky-200 transition-colors"
-          >
-            Check service status
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 7h6m0 0v6m0-6L10 20"
-              />
-            </svg>
-          </a>
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mx-auto" />
         </header>
 

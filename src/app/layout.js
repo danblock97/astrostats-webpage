@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import Footer from "./components/Footer";
 import Providers from "./components/Providers";
@@ -154,20 +153,16 @@ export default async function RootLayout({ children }) {
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 				/>
 			</head>
-            <body className={inter.className}>
-                <Providers>
-                    <DynamicBanner />
-                    <Navbar />
-                    {children}
-                    <Footer />
-                </Providers>
-                <Analytics />
-                <SpeedInsights />
-                <Script
-                    src="https://astrostats.statuspage.io/embed/script.js"
-                    strategy="afterInteractive"
-                />
-            </body>
+			<body className={inter.className}>
+				<Providers>
+					<DynamicBanner />
+					<Navbar />
+					{children}
+					<Footer />
+				</Providers>
+				<Analytics />
+				<SpeedInsights />
+			</body>
 		</html>
 	);
 }
