@@ -12,7 +12,6 @@ COPY package.json package-lock.json ./
 COPY next.config.mjs ./
 COPY jsconfig.json ./
 COPY tsconfig.json ./
-COPY next-env.d.ts ./
 COPY postcss.config.cjs ./
 COPY tailwind.config.js ./
 COPY src ./src
