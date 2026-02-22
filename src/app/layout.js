@@ -4,8 +4,7 @@ import Footer from "./components/Footer";
 import Providers from "./components/Providers";
 import Navbar from "./components/Navbar";
 import DynamicBanner from "./components/DynamicBanner";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ 
 	subsets: ["latin"],
@@ -140,6 +139,8 @@ const jsonLd = {
 	],
 };
 
+const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
+
 export default async function RootLayout({ children }) {
 	return (
 		<html lang="en">
@@ -160,8 +161,7 @@ export default async function RootLayout({ children }) {
 					{children}
 					<Footer />
 				</Providers>
-				<Analytics />
-				<SpeedInsights />
+				<GoogleAnalytics gaId={gaId} />
 			</body>
 		</html>
 	);
