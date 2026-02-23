@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import Providers from "./components/Providers";
 import Navbar from "./components/Navbar";
 import DynamicBanner from "./components/DynamicBanner";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import AnalyticsConsent from "./components/AnalyticsConsent";
 
 const inter = Inter({ 
 	subsets: ["latin"],
@@ -161,7 +161,7 @@ export default async function RootLayout({ children }) {
 					{children}
 					<Footer />
 				</Providers>
-				<GoogleAnalytics gaId={gaId} />
+				<AnalyticsConsent gaId={gaId} />
 			</body>
 		</html>
 	);
