@@ -11,9 +11,9 @@ const Support = () => {
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
   const SUPPORT_EMAIL = "support@astrostats.info";
   const BUG_REPORT_URL =
-    "https://danblock97.atlassian.net/jira/software/c/form/d60d5094-736b-4c33-8cc8-1b5780dde59a?atlOrigin=eyJpIjoiZDQxNTM3MmZiMmI3NDhiZjliM2MzOGViYjcxOGQ3ZTIiLCJwIjoiaiJ9";
+    "https://danblock97.atlassian.net/jira/software/c/form/d60d5094-736b-4c33-8cc8-1b5780dde59a?atlOrigin=eyJpIjoiMTVhOGMxMTQ1OGRhNGYwNTlmZjQ2ZDllZGViNGVjMTQiLCJwIjoiaiJ9";
   const FEATURE_REQUEST_URL =
-    "https://danblock97.atlassian.net/jira/software/c/form/cd5aa1e8-5ff4-4141-9ea4-843f3b6502f1?atlOrigin=eyJpIjoiNDMxMzRmNGE0Y2MzNDBjZDgyNmZiOGZhM2Y3ZjMwNWQiLCJwIjoiaiJ9";
+    "https://danblock97.atlassian.net/jira/software/c/form/cd5aa1e8-5ff4-4141-9ea4-843f3b6502f1?atlOrigin=eyJpIjoiZjI5OWViYWY1M2RmNGY0MWEzZDM2OGQyZDAyODRlOGQiLCJwIjoiaiJ9";
 
   return (
     <div className="w-full my-10">
