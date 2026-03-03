@@ -215,18 +215,15 @@ export async function POST(request) {
 
     const teamId = await getTeamId(teamName);
 
-    // Ensure both labels exist (create if missing)
-    const [supportLabelId, categoryLabelId] = await Promise.all([
-      ensureLabel(teamId, "Support"),
-      ensureLabel(teamId, categoryToSlug(category)),
-    ]);
+    // Ensure the category label exists (create if missing)
+    const categoryLabelId = await ensureLabel(teamId, categoryToSlug(category));
 
     const issue = await createLinearIssue({
       teamId,
       title: issueTitle,
       description: issueDescription,
       priority: linearPriority,
-      labelIds: [supportLabelId, categoryLabelId],
+      labelIds: [categoryLabelId],
     });
 
     return NextResponse.json({
