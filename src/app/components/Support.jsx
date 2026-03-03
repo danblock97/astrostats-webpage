@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import SupportForm from "./SupportForm";
 
 const Support = () => {
   useEffect(() => {
@@ -159,6 +160,27 @@ const Support = () => {
                   Request a Feature
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Support Request Form */}
+        <div className="mx-auto max-w-3xl mb-10">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-300" />
+            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white">Submit a Support Request</h2>
+                  <p className="text-sm text-gray-400">We&apos;ll create a ticket and follow up via email.</p>
+                </div>
+              </div>
+              <SupportForm />
             </div>
           </div>
         </div>
