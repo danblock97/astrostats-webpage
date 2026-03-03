@@ -74,12 +74,14 @@ export default function SupportForm() {
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
   const [serverError, setServerError] = useState("");
   const [successData, setSuccessData] = useState(null);
+  const [shareSystemInfo, setShareSystemInfo] = useState(true);
+  const capturedUserAgent = useRef("");
   const formRef = useRef(null);
 
-  // Auto-capture browser/system info
+  // Auto-capture browser/system info into a ref (not form state)
   useEffect(() => {
     if (typeof navigator !== "undefined") {
-      setForm((prev) => ({ ...prev, systemInfo: navigator.userAgent }));
+      capturedUserAgent.current = navigator.userAgent;
     }
   }, []);
 
@@ -134,7 +136,10 @@ export default function SupportForm() {
       const res = await fetch("/api/support", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          systemInfo: shareSystemInfo ? capturedUserAgent.current : "",
+        }),
       });
 
       const data = await res.json();
@@ -164,11 +169,11 @@ export default function SupportForm() {
         description: "",
         stepsToReproduce: "",
         affectedProduct: "",
-        systemInfo: typeof navigator !== "undefined" ? navigator.userAgent : "",
+        systemInfo: "",
       });
+      setShareSystemInfo(true);
       setErrors({});
     } catch (err) {
-      console.error("Support form submission error:", err);
       setServerError("Network error. Please check your connection and try again.");
       setStatus("error");
     }
@@ -375,18 +380,30 @@ export default function SupportForm() {
         </div>
       )}
 
-      {/* System Info (read-only) */}
-      <div>
-        <Label htmlFor="systemInfo">Browser / System Info</Label>
-        <input
-          id="systemInfo"
-          name="systemInfo"
-          type="text"
-          value={form.systemInfo}
-          readOnly
-          className={`${inputBase} ${inputValid} cursor-not-allowed opacity-60 text-xs font-mono`}
-        />
-        <p className="mt-1 text-xs text-gray-500">Auto-captured to help us diagnose issues.</p>
+      {/* System Info opt-in */}
+      <div className="rounded-lg border border-white/10 bg-gray-900/40 px-4 py-3">
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={shareSystemInfo}
+            onChange={(e) => setShareSystemInfo(e.target.checked)}
+            disabled={status === "submitting"}
+            className="mt-0.5 h-4 w-4 rounded border-white/20 bg-gray-800 accent-purple-500 cursor-pointer"
+          />
+          <div>
+            <span className="text-sm font-medium text-gray-300">
+              Share browser &amp; system info
+            </span>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Helps us diagnose issues faster. Includes your browser name and OS version — no personal data.
+            </p>
+            {shareSystemInfo && capturedUserAgent.current && (
+              <p className="mt-1.5 text-xs font-mono text-gray-500 break-all">
+                {capturedUserAgent.current}
+              </p>
+            )}
+          </div>
+        </label>
       </div>
 
       {/* Server error */}
