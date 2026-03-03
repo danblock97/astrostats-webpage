@@ -11,10 +11,6 @@ const Support = () => {
 
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
   const SUPPORT_EMAIL = "support@astrostats.info";
-  const BUG_REPORT_URL =
-    "https://danblock97.atlassian.net/jira/software/c/form/d60d5094-736b-4c33-8cc8-1b5780dde59a?atlOrigin=eyJpIjoiMTVhOGMxMTQ1OGRhNGYwNTlmZjQ2ZDllZGViNGVjMTQiLCJwIjoiaiJ9";
-  const FEATURE_REQUEST_URL =
-    "https://danblock97.atlassian.net/jira/software/c/form/cd5aa1e8-5ff4-4141-9ea4-843f3b6502f1?atlOrigin=eyJpIjoiZjI5OWViYWY1M2RmNGY0MWEzZDM2OGQyZDAyODRlOGQiLCJwIjoiaiJ9";
 
   return (
     <div className="w-full my-10">
@@ -40,126 +36,31 @@ const Support = () => {
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mx-auto" />
         </header>
 
-        {/* Support Options Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          {/* Email Support Card */}
+        {/* Email Support Card */}
+        <div className="mx-auto max-w-3xl mb-10">
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
-            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8 h-full flex flex-col">
-              <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center mb-6">
-                <svg
-                  className="w-7 h-7 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
+            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-3">
-                Email Support
-              </h2>
-              <p className="text-[#adb7be] mb-6 flex-grow">
-                Send us an email and we'll get back to you as soon as possible.
-                Best for detailed questions or account-related issues.
-              </p>
+              <div className="flex-grow">
+                <h2 className="text-xl font-bold text-white mb-1">Email Support</h2>
+                <p className="text-[#adb7be] text-sm">
+                  Prefer email? Reach us directly and we&apos;ll get back to you as soon as possible.
+                </p>
+              </div>
               <a
                 href={`mailto:${SUPPORT_EMAIL}`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 shadow-lg hover:shadow-purple-500/30"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 shadow-lg hover:shadow-purple-500/30 whitespace-nowrap"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 {SUPPORT_EMAIL}
               </a>
-            </div>
-          </div>
-
-          {/* Feedback Form Card */}
-          <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-orange-600 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
-            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8 h-full flex flex-col">
-              <div className="w-14 h-14 bg-gradient-to-br from-pink-600 to-orange-600 rounded-full flex items-center justify-center mb-6">
-                <svg
-                  className="w-7 h-7 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-3">
-                Feedback Form
-              </h2>
-              <p className="text-[#adb7be] mb-6 flex-grow">
-                Report bugs or request features. Help us make AstroStats better
-                for everyone.
-              </p>
-              <div className="flex flex-col gap-3">
-                <a
-                  href={BUG_REPORT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 text-white font-semibold hover:from-pink-500 hover:to-orange-500 transition-all duration-300 shadow-lg hover:shadow-pink-500/30"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                  Report a Bug
-                </a>
-                <a
-                  href={FEATURE_REQUEST_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-orange-400/30 bg-white/5 text-white font-semibold hover:bg-white/10 transition-all duration-300"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  Request a Feature
-                </a>
-              </div>
             </div>
           </div>
         </div>
