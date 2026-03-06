@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import SupportForm from "./SupportForm";
 
 const Support = () => {
   useEffect(() => {
@@ -11,6 +10,10 @@ const Support = () => {
 
   const DISCORD_SERVER_URL = "https://discord.gg/BeszQxTn9D";
   const SUPPORT_EMAIL = "support@astrostats.info";
+  const FEATURE_REQUEST_FORM_URL =
+    "https://danblock97.atlassian.net/jira/software/c/form/9e506994-59c0-4a7e-a48d-39d6134fc7a5?atlOrigin=eyJpIjoiMzE2OWM5NjBiNTlhNDg5Y2FjN2E1ZDJiM2IxZjBkYjAiLCJwIjoiaiJ9";
+  const BUG_REPORT_FORM_URL =
+    "https://danblock97.atlassian.net/jira/software/c/form/b2a955ed-8baf-466b-89e6-1fc707775856?atlOrigin=eyJpIjoiMGUyYTUzM2UxNjJlNDk4MmFjYzA3MDQ3MWUzNWMyMTMiLCJwIjoiaiJ9";
 
   return (
     <div className="w-full my-10">
@@ -30,13 +33,62 @@ const Support = () => {
             </span>
           </h1>
           <p className="mt-4 text-lg text-[#adb7be] max-w-2xl mx-auto">
-            Need help with AstroStats? We're here for you. Choose the option
-            that works best.
+            Need help with AstroStats? Report bugs, request features, or reach
+            out directly using the option that fits your issue.
           </p>
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full mx-auto" />
         </header>
 
-        {/* Email Support Card */}
+        <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 mb-10">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-rose-600 to-orange-500 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
+            <div className="relative h-full rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-rose-600 to-orange-500">
+                <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3.75m0 3.75h.008v.008H12v-.008zm8.25-3.75a8.25 8.25 0 11-16.5 0 8.25 8.25 0 0116.5 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-white mb-2">Report a Bug</h2>
+              <p className="text-sm text-[#adb7be] mb-6">
+                Open the Jira bug report form with reproduction details,
+                screenshots, and anything else that helps us diagnose the issue.
+              </p>
+              <a
+                href={BUG_REPORT_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-600 to-orange-500 px-6 py-3 font-semibold text-white transition-all duration-300 hover:from-rose-500 hover:to-orange-400 shadow-lg hover:shadow-rose-500/30"
+              >
+                Open Bug Report Form
+              </a>
+            </div>
+          </div>
+
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
+            <div className="relative h-full rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8">
+              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600">
+                <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v12m6-6H6" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-white mb-2">Request a Feature</h2>
+              <p className="text-sm text-[#adb7be] mb-6">
+                Send new ideas through the Jira feature request form so we can
+                review the use case and track interest.
+              </p>
+              <a
+                href={FEATURE_REQUEST_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-semibold text-white transition-all duration-300 hover:from-cyan-400 hover:to-blue-500 shadow-lg hover:shadow-cyan-500/30"
+              >
+                Open Feature Request Form
+              </a>
+            </div>
+          </div>
+        </div>
+
         <div className="mx-auto max-w-3xl mb-10">
           <div className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
@@ -49,7 +101,8 @@ const Support = () => {
               <div className="flex-grow">
                 <h2 className="text-xl font-bold text-white mb-1">Email Support</h2>
                 <p className="text-[#adb7be] text-sm">
-                  Prefer email? Reach us directly and we&apos;ll get back to you as soon as possible.
+                  Prefer email? Reach us directly and we&apos;ll get back to you
+                  as soon as possible.
                 </p>
               </div>
               <a
@@ -61,27 +114,6 @@ const Support = () => {
                 </svg>
                 {SUPPORT_EMAIL}
               </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Support Request Form */}
-        <div className="mx-auto max-w-3xl mb-10">
-          <div className="relative group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-300" />
-            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-white">Submit a Support Request</h2>
-                  <p className="text-sm text-gray-400">We&apos;ll create a ticket and follow up via email.</p>
-                </div>
-              </div>
-              <SupportForm />
             </div>
           </div>
         </div>

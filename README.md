@@ -50,7 +50,8 @@ Need help with AstroStats? Have suggestions for new features? Join our support s
 
 - **Discord Support Server**: [Join Here](https://discord.gg/BeszQxTn9D)
 - **Contact**: Send an email to contact@danblock.dev with your questions or feedback
-- **Bug Reports**: Use the "Report a Bug" button on our website to submit detailed bug reports
+- **Bug Reports**: Use the support page Jira bug report form to submit detailed bug reports
+- **Feature Requests**: Use the support page Jira feature request form to suggest improvements
 
 ## Privacy and Terms
 

@@ -3,17 +3,17 @@ import Support from "../components/Support";
 export const metadata = {
 	title: "Support - Get Help with AstroStats",
 	description:
-		"Get help and support for AstroStats Discord bot. Find answers to common questions, report issues, or contact our support team.",
+		"Get help with AstroStats, submit bug reports, request features through Jira forms, or contact the support team directly.",
 	openGraph: {
 		title: "Support - Get Help with AstroStats",
 		description:
-			"Get help and support for AstroStats Discord bot. Find answers to common questions and contact our support team.",
+			"Get help with AstroStats, submit bug reports, request features through Jira forms, or contact the support team directly.",
 		url: "https://astrostats.info/support",
 	},
 	twitter: {
 		title: "Support - Get Help with AstroStats",
 		description:
-			"Get help and support for AstroStats Discord bot. Find answers to common questions and contact our support team.",
+			"Get help with AstroStats, submit bug reports, request features through Jira forms, or contact the support team directly.",
 	},
 };
 
