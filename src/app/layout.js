@@ -4,7 +4,6 @@ import Footer from "./components/Footer";
 import Providers from "./components/Providers";
 import Navbar from "./components/Navbar";
 import DynamicBanner from "./components/DynamicBanner";
-import AnalyticsConsent from "./components/AnalyticsConsent";
 
 const inter = Inter({ 
 	subsets: ["latin"],
@@ -139,8 +138,6 @@ const jsonLd = {
 	],
 };
 
-const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
-
 export default async function RootLayout({ children }) {
 	return (
 		<html lang="en">
@@ -161,7 +158,6 @@ export default async function RootLayout({ children }) {
 					{children}
 					<Footer />
 				</Providers>
-				<AnalyticsConsent gaId={gaId} />
 			</body>
 		</html>
 	);
