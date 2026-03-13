@@ -9,6 +9,14 @@ const Footer = () => {
       <div className="container mx-auto px-12 py-6 flex flex-col md:flex-row justify-between items-center">
         <p className="text-gray-400 text-sm mb-4 md:mb-0">AstroStats</p>
         <div className="flex space-x-4 mt-4 md:mt-0 text-sm">
+          <a
+            href="https://astrostats.statuspage.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white"
+          >
+            System Status
+          </a>
           <Link
             href="/legal/privacy-policy"
             className="text-gray-400 hover:text-white"

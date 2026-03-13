@@ -14,6 +14,7 @@ const Support = () => {
     "https://danblock97.atlassian.net/jira/software/c/form/9e506994-59c0-4a7e-a48d-39d6134fc7a5?atlOrigin=eyJpIjoiMzE2OWM5NjBiNTlhNDg5Y2FjN2E1ZDJiM2IxZjBkYjAiLCJwIjoiaiJ9";
   const BUG_REPORT_FORM_URL =
     "https://danblock97.atlassian.net/jira/software/c/form/b2a955ed-8baf-466b-89e6-1fc707775856?atlOrigin=eyJpIjoiMGUyYTUzM2UxNjJlNDk4MmFjYzA3MDQ3MWUzNWMyMTMiLCJwIjoiaiJ9";
+  const STATUS_PAGE_URL = "https://astrostats.statuspage.io/";
 
   return (
     <div className="w-full my-10">
@@ -113,6 +114,34 @@ const Support = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 {SUPPORT_EMAIL}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-3xl mb-10">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-300" />
+            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-gray-900/90 to-gray-800/90 p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-6m3 6V7m3 10v-4m5 8H4a1 1 0 01-1-1V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1z" />
+                </svg>
+              </div>
+              <div className="flex-grow">
+                <h2 className="text-xl font-bold text-white mb-1">Check Service Status</h2>
+                <p className="text-[#adb7be] text-sm">
+                  View live uptime, active incidents, and maintenance updates on
+                  the AstroStats status page.
+                </p>
+              </div>
+              <a
+                href={STATUS_PAGE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold hover:from-emerald-400 hover:to-teal-400 transition-all duration-300 shadow-lg hover:shadow-emerald-500/30 whitespace-nowrap"
+              >
+                Open Status Page
               </a>
             </div>
           </div>
